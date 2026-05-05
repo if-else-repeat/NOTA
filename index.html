@@ -1065,6 +1065,12 @@ body::before {
   background: linear-gradient(90deg, var(--amber), var(--gold));
   transition: width 0.5s var(--ease-out);
 }
+.quiz-next-btn {
+  margin-top: 1.5rem; background: var(--saffron); color: #fff;
+  border: none; padding: 10px 24px; font-family: 'Space Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  display: none;
+}
 .quiz-q-num {
   font-family: var(--ff-mono);
   font-size: 0.6rem; letter-spacing: 3px; color: var(--muted);
@@ -3329,7 +3335,15 @@ function initQuiz() {
     renderQuestion();
   });
 }
+function nextQuestion() {
+  currentQ++;
+  renderQuiz();
+}
 
+function resetQuiz() {
+  currentQ = 0; score = 0; answered = false;
+  renderQuiz();
+}
 function renderQuestion() {
   answered = false;
   const q = quizData[qIdx];
