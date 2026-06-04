@@ -375,24 +375,46 @@ body::before {
 
 /* Scroll hint */
 .scroll-cue {
-  position: absolute; bottom: 2.5rem; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  opacity: 0; animation: fadeUp 1s 2.2s ease forwards;
+  position: absolute; 
+  bottom: 2.5rem; 
+  
+  /* NEW CENTERING METHOD: Does not use transform, so animations won't break it */
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: max-content;
+  
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 8px;
+  
+  /* Your original animation code is untouched */
+  opacity: 0; 
+  animation: fadeUp 1s 2.2s ease forwards;
 }
+
 .scroll-cue span {
   font-family: var(--ff-mono);
-  font-size: 0.55rem; letter-spacing: 3px; color: var(--muted);
+  font-size: 0.55rem; 
+  letter-spacing: 3px; 
+  margin-right: -3px; /* Counters the 3px space on the final letter to keep it dead-center */
+  color: var(--muted);
 }
+
 .scroll-cue-line {
-  width: 1px; height: 50px;
+  width: 1px; 
+  height: 50px;
   background: linear-gradient(to bottom, var(--amber), transparent);
   animation: scrollPulse 2s ease-in-out infinite;
 }
+
+/* Your original keyframes are untouched */
 @keyframes scrollPulse {
   0%,100% { opacity: 0.4; transform: scaleY(0.8); }
   50% { opacity: 1; transform: scaleY(1.1); }
 }
+
 
 /* ═══════════════════════════════════════════════════════════════
    TICKER / MARQUEE
