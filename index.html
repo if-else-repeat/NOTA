@@ -3278,198 +3278,78 @@ function buildAncientTimeline() {
 }
 
   
-// ─── QUIZ ────────────────────────────────────────────────────
+// ─── QUIZ ─────────────────────────────────────
 const quizData = [
-  {
-    q: "India's first general election after independence was conducted in:",
-    opts: ["1947–48", "1949–50", "1951–52", "1953–54"],
-    ans: 2,
-    exp: "India's first general elections spanned October 25, 1951 to February 21, 1952 — 68 phases, 173 million voters, 85% of whom were illiterate. The ECI used different coloured ballot boxes per candidate. World had never seen anything like it."
-  },
-  {
-    q: "Who was India's first Chief Election Commissioner?",
-    opts: ["T.N. Seshan", "Sukumar Sen", "S.L. Shakdhar", "K.V.K. Sundaram"],
-    ans: 1,
-    exp: "Sukumar Sen was appointed India's first Chief Election Commissioner on March 21, 1950. A Cambridge-educated ICS officer, he organised the monumental 1951-52 elections and received global praise for conducting a flawless election at unprecedented scale."
-  },
-  {
-    q: "Vaishali's Licchavi Gana Sangha had approximately how many elected assembly members?",
-    opts: ["1,007", "3,333", "7,707", "12,000"],
-    ans: 2,
-    exp: "The Licchavi republic of Vaishali had a 7,707-member elected assembly (called Rajas) — one of the largest deliberative bodies in ancient history. They voted using a ballot system called Salaka, and elected a President, VP, Defence Chief, and Treasurer."
-  },
-  {
-    q: "Until which year did India conduct simultaneous Lok Sabha and ALL state elections?",
-    opts: ["1952", "1962", "1967", "1972"],
-    ans: 2,
-    exp: "India held simultaneous national and state elections from 1952 to 1967 (four election cycles). In 1968–69, several state governments fell due to defections — breaking the synchronisation permanently. The ONOE proposal aims to restore this."
-  },
-  {
-    q: "The 61st Constitutional Amendment (1989) did what to India's democracy?",
-    opts: ["Created Panchayati Raj", "Lowered voting age from 21 to 18", "Introduced EVMs", "Created anti-defection law"],
-    ans: 1,
-    exp: "The 61st Amendment lowered the voting age from 21 to 18, enfranchising approximately 50 million young Indians overnight. Rajiv Gandhi's government passed it in 1988, came into force in 1989 — before which many countries still had a 21+ voting age."
-  },
-  {
-    q: "NOTA — 'None of the Above' — was introduced on Indian EVMs following a Supreme Court order in:",
-    opts: ["2009", "2011", "2013", "2015"],
-    ans: 2,
-    exp: "NOTA was introduced on October 4, 2013, following a Supreme Court directive in PUCL vs Union of India. The court held that voters have the right to reject all candidates. NOTA does not invalidate the election but allows formal dissent without abstaining."
-  },
-  {
-    q: "Which constitutional amendment gave India the Panchayati Raj system?",
-    opts: ["42nd Amendment", "61st Amendment", "73rd Amendment", "86th Amendment"],
-    ans: 2,
-    exp: "The 73rd Constitutional Amendment (1992), under PM Narasimha Rao, constitutionalised rural local self-governance — creating three-tier Panchayati Raj. The companion 74th Amendment did the same for urban bodies. Together they created over 3 million elected grassroots representatives."
-  },
-  {
-    q: "Which general election produced the largest ever seat majority in Lok Sabha history?",
-    opts: ["1971 (Garibi Hatao)", "1977 (Post-Emergency)", "1980 (Indira Returns)", "1984 (Sympathy Wave)"],
-    ans: 3,
-    exp: "The 1984 election — held weeks after Indira Gandhi's assassination — gave Congress 404 of 542 seats (74.5%), the largest majority ever in Lok Sabha history. Rajiv Gandhi won on a wave of national sympathy and moral outrage. The vote share was 48.1% — also never matched since."
-  },
-  {
-    q: "The One Nation One Election bill (129th Constitutional Amendment) was introduced in Parliament in:",
-    opts: ["September 2024", "December 2024", "February 2025", "April 2025"],
-    ans: 1,
-    exp: "The Constitution (129th Amendment) Bill was introduced in the Lok Sabha on December 17, 2024 by Law Minister Arjun Ram Meghwal. It was referred to a 39-member Joint Parliamentary Committee. If passed and implemented, the earliest synchronised elections could happen around 2034."
-  },
-  {
-    q: "The ancient Kudavolai system mentioned in the Uttaramerur inscription was a form of:",
-    opts: ["Land tax collection", "Lottery-based village election", "Military recruitment", "Census counting"],
-    ans: 1,
-    exp: "The Kudavolai system, documented in a 10th-century CE Chola-era inscription at Uttaramerur (Tamil Nadu), was a sophisticated village election method where candidate names were written on palm leaves, placed in a pot, and drawn out by a young boy — an ancient secret ballot. It specified eligibility criteria, disqualification rules, and term limits."
-  }
+  { q: "India's first general election after independence was held in which year(s)?", opts: ["1947–48", "1949–50", "1951–52", "1953–54"], ans: 2, exp: "India's first general elections were held between October 25, 1951 and February 21, 1952 — spanning a remarkable 68 phases. It was, at the time, the world's largest election ever conducted." },
+  { q: "Who was India's first Chief Election Commissioner?", opts: ["T.N. Seshan", "Sukumar Sen", "B.R. Ambedkar", "Jawaharlal Nehru"], ans: 1, exp: "Sukumar Sen, an ICS officer, was appointed as India's first Chief Election Commissioner in March 1950. He masterfully organized the 1951-52 elections, impressing international observers worldwide." },
+  { q: "What is Vaishali's historical significance in the context of Indian democracy?", opts: ["It was where India's Constitution was drafted", "It is considered the world's first republic (6th century BCE)", "It was the site of India's first general election", "It was where the ECI was established"], ans: 1, exp: "Vaishali, in present-day Bihar, is considered one of the world's first republics — predating Athenian democracy by about a century. The Licchavi Gana Sangha had a 7,707-member elected assembly with formal voting procedures." },
+  { q: "Until what year did India conduct simultaneous Lok Sabha and state elections?", opts: ["1952", "1962", "1967", "1977"], ans: 2, exp: "India held simultaneous national and state elections in 1952, 1957, 1962, and 1967. The cycle broke in 1968-69 when several state governments fell prematurely due to defections — and has never been restored since." },
+  { q: "What is the minimum age to be eligible to vote in India?", opts: ["16 years", "18 years", "21 years", "25 years"], ans: 1, exp: "The voting age was 21 from 1952 until the 61st Constitutional Amendment in 1989 lowered it to 18. This added approximately 50 million new voters overnight." },
+  { q: "NOTA on the EVM stands for:", opts: ["No Other Trusted Alternative", "None of the Above", "Not On The Agenda", "New Optional Tally Acknowledgement"], ans: 1, exp: "NOTA (None of the Above) was introduced following a Supreme Court order in 2013. It allows voters to formally reject all candidates. While it cannot cancel an election, it allows voters to register their dissent." },
+  { q: "Which constitutional amendment introduced the Panchayati Raj system?", opts: ["42nd Amendment", "61st Amendment", "73rd Amendment", "86th Amendment"], ans: 2, exp: "The 73rd Constitutional Amendment (1992) gave constitutional status to rural local bodies (Panchayati Raj). The 74th Amendment did the same for urban local bodies. Together they created the world's largest grassroots democracy." },
+  { q: "How many seats must a party or alliance win to form a majority government in Lok Sabha?", opts: ["243", "272", "301", "326"], ans: 1, exp: "Lok Sabha has 543 elected seats. A simple majority requires 272 seats (more than half). In 2024, NDA won 293 seats — just enough for a majority, but less than BJP's solo expectations of 400." },
+  { q: "The Model Code of Conduct (MCC) comes into effect when:", opts: ["6 months before elections", "When elections are officially announced by ECI", "When voting begins", "When nominations open"], ans: 1, exp: "The MCC kicks in the moment the ECI announces the election schedule. From that point, governments cannot announce new welfare schemes, transfer key officials, or use state machinery for campaigning." },
+  { q: "One Nation One Election (The 129th Amendment Bill) was introduced in Parliament in:", opts: ["March 2024", "September 2024", "December 2024", "January 2025"], ans: 2, exp: "The Constitution (129th Amendment) Bill, 2024 was introduced in Lok Sabha on December 17, 2024 by Law Minister Arjun Ram Meghwal. It was then referred to a 39-member Joint Parliamentary Committee for review." }
 ];
 
-let qIdx = 0, score = 0, answered = false;
+let currentQ = 0;
+let score = 0;
+let answered = false;
 
-// Initialize the quiz and attach single event listeners
-function initQuiz() {
-  renderQuestion();
-  
-  // Next button handler
-  document.getElementById('quiz-next')?.addEventListener('click', () => {
-    qIdx++;
-    if (qIdx >= quizData.length) {
-      showScore();
-    } else {
-      renderQuestion();
-    }
-  });
-  
-  // Restart button handler
-  document.getElementById('quiz-restart')?.addEventListener('click', () => {
-    qIdx = 0; 
-    score = 0; 
-    answered = false;
-    document.getElementById('quiz-score')?.classList.add('hidden');
-    document.getElementById('quiz-main')?.classList.remove('hidden');
-    renderQuestion();
-  });
-}
-
-function renderQuestion() {
-  answered = false;
-  
-  const q = quizData[qIdx];
-  const pct = Math.round((qIdx / quizData.length) * 100);
-
-  // Update Progress Bar
-  const progFill = document.getElementById('quiz-prog-fill');
-  if (progFill) progFill.style.width = pct + '%';
-
-  // Update Question Counter
-  const numEl = document.getElementById('quiz-q-num');
-  if (numEl) numEl.textContent = `Question ${qIdx + 1} of ${quizData.length}`;
-
-  // Update Question Text
-  const qEl = document.getElementById('quiz-question');
-  if (qEl) qEl.textContent = q.q;
-
-  // Render Options
-  const optsEl = document.getElementById('quiz-options');
-  if (!optsEl) return;
-  optsEl.innerHTML = '';
-  q.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'quiz-opt btn-evm';
-    btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
-    btn.addEventListener('click', () => handleAnswer(i, btn));
-    optsEl.appendChild(btn);
-  });
-
-  // Reset UI Feedback
-  const fb = document.getElementById('quiz-feedback');
-  if (fb) { 
-    fb.innerHTML = ''; 
-    fb.style.display = 'none'; 
+function renderQuiz() {
+  if (currentQ >= quizData.length) {
+    document.getElementById('quizContent').innerHTML = `
+      <div class="quiz-score">
+        <div style="font-size:4rem;margin-bottom:0.5rem">${score >= 8 ? '🏆' : score >= 5 ? '🎯' : '📚'}</div>
+        <div>You scored ${score} / ${quizData.length}</div>
+        <div style="font-size:0.9rem; color:var(--muted); font-family:'Space Mono',monospace; margin-top:0.5rem">
+          ${score >= 8 ? 'Outstanding! You are an election expert.' : score >= 5 ? 'Good knowledge! Keep exploring.' : 'Great start — now you know where to read more!'}
+        </div>
+        <button class="quiz-next-btn" style="display:inline-block; margin-top:2rem" onclick="resetQuiz()">Try Again</button>
+      </div>`;
+    return;
   }
-  
-  const next = document.getElementById('quiz-next');
-  if (next) next.style.display = 'none';
+  const q = quizData[currentQ];
+  document.getElementById('quizContent').innerHTML = `
+    <div style="font-size:0.6rem;letter-spacing:2px;color:var(--muted);margin-bottom:1rem">QUESTION ${currentQ+1} OF ${quizData.length}</div>
+    <div class="quiz-question">${q.q}</div>
+    <div class="quiz-options">
+      ${q.opts.map((opt,i) => `<button class="quiz-opt" onclick="selectAnswer(${i})">${opt}</button>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="qFeedback"></div>
+    <button class="quiz-next-btn" id="qNext" onclick="nextQuestion()">${currentQ < quizData.length-1 ? 'Next Question →' : 'See Results →'}</button>
+  `;
+  answered = false;
 }
 
-function handleAnswer(idx, btn) {
+function selectAnswer(idx) {
   if (answered) return;
   answered = true;
-  
-  const q = quizData[qIdx];
+  const q = quizData[currentQ];
   const opts = document.querySelectorAll('.quiz-opt');
-  
-  // Disable all options and show the correct one
- 
-  opts.forEach(o => o.disabled = true);
   opts[q.ans].classList.add('correct');
-  
-  // Mark selected answer as wrong or increase score
-  
-  if (idx !== q.ans) {
-    btn.classList.add('wrong');
-  } else {
-    score++;
-  }
-  
-   // Show explanation
-
-  const fb = document.getElementById('quiz-feedback');
-  if (fb) {
-    fb.style.display = 'block';
-    fb.innerHTML = `<strong style="color:${idx === q.ans ? '#6BC99A' : '#E07070'}">${idx === q.ans ? '✓ Correct!' : '✗ Incorrect.'}</strong> ${q.exp}`;
-  }
-  
-  // Show next button
-  const next = document.getElementById('quiz-next');
-  if (next) {
-    next.style.display = 'inline-block';
-    next.textContent = qIdx < quizData.length - 1 ? 'Next Question →' : 'See Results →';
-  }
+  if (idx !== q.ans) { opts[idx].classList.add('wrong'); }
+  else { score++; }
+  const fb = document.getElementById('qFeedback');
+  fb.style.background = idx === q.ans ? 'rgba(91,201,138,0.08)' : 'rgba(212,84,122,0.08)';
+  fb.style.borderLeft = `3px solid ${idx === q.ans ? '#5BC98A' : 'var(--lotus-pink)'}`;
+  fb.style.color = 'var(--muted)';
+  fb.innerHTML = `<strong style="color:${idx===q.ans?'#5BC98A':'var(--lotus-pink)'}">${idx===q.ans ? '✓ Correct!' : '✗ Incorrect.'}</strong> ${q.exp}`;
+  document.getElementById('qNext').style.display = 'inline-block';
 }
 
-// Show final score screen
-function showScore() {
-  document.getElementById('quiz-main')?.classList.add('hidden');
-  
-  const scoreEl = document.getElementById('quiz-score');
-  scoreEl?.classList.remove('hidden');
-  
-  const emoji = score >= 9 ? '🏆' : score >= 7 ? '🎯' : score >= 5 ? '📜' : '📚';
-  const msg = score >= 9 ? 'Extraordinary! You could run the ECI.'
-    : score >= 7 ? 'Impressive. A true citizen of democracy.'
-    : score >= 5 ? 'Good foundation. Keep reading Matdan.'
-    : 'Democracy rewards the curious. Try again.';
-    
-  const numEl = document.getElementById('qs-num');
-  if (numEl) numEl.textContent = `${score}/${quizData.length}`;
-  
-  const emEl = document.getElementById('qs-emoji');
-  if (emEl) emEl.textContent = emoji;
-  
-  const msgEl = document.getElementById('qs-message');
-  if (msgEl) msgEl.textContent = msg;
+function nextQuestion() {
+  currentQ++;
+  renderQuiz();
 }
 
+function resetQuiz() {
+  currentQ = 0; score = 0; answered = false;
+  renderQuiz();
+}
 
+// Initialize quiz
+renderQuiz();
 
 // ─── MODAL CLOSE ON BACKDROP ─────────────────────────────────
 document.addEventListener('click', e => {
