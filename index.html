@@ -3277,65 +3277,66 @@ function buildAncientTimeline() {
   atlObs.observe(container);
 }
 
+  
 // ─── QUIZ ────────────────────────────────────────────────────
 const quizData = [
   {
     q: "India's first general election after independence was conducted in:",
-    opts: ["1947–48","1949–50","1951–52","1953–54"],
+    opts: ["1947–48", "1949–50", "1951–52", "1953–54"],
     ans: 2,
     exp: "India's first general elections spanned October 25, 1951 to February 21, 1952 — 68 phases, 173 million voters, 85% of whom were illiterate. The ECI used different coloured ballot boxes per candidate. World had never seen anything like it."
   },
   {
     q: "Who was India's first Chief Election Commissioner?",
-    opts: ["T.N. Seshan","Sukumar Sen","S.L. Shakdhar","K.V.K. Sundaram"],
+    opts: ["T.N. Seshan", "Sukumar Sen", "S.L. Shakdhar", "K.V.K. Sundaram"],
     ans: 1,
     exp: "Sukumar Sen was appointed India's first Chief Election Commissioner on March 21, 1950. A Cambridge-educated ICS officer, he organised the monumental 1951-52 elections and received global praise for conducting a flawless election at unprecedented scale."
   },
   {
     q: "Vaishali's Licchavi Gana Sangha had approximately how many elected assembly members?",
-    opts: ["1,007","3,333","7,707","12,000"],
+    opts: ["1,007", "3,333", "7,707", "12,000"],
     ans: 2,
     exp: "The Licchavi republic of Vaishali had a 7,707-member elected assembly (called Rajas) — one of the largest deliberative bodies in ancient history. They voted using a ballot system called Salaka, and elected a President, VP, Defence Chief, and Treasurer."
   },
   {
     q: "Until which year did India conduct simultaneous Lok Sabha and ALL state elections?",
-    opts: ["1952","1962","1967","1972"],
+    opts: ["1952", "1962", "1967", "1972"],
     ans: 2,
     exp: "India held simultaneous national and state elections from 1952 to 1967 (four election cycles). In 1968–69, several state governments fell due to defections — breaking the synchronisation permanently. The ONOE proposal aims to restore this."
   },
   {
     q: "The 61st Constitutional Amendment (1989) did what to India's democracy?",
-    opts: ["Created Panchayati Raj","Lowered voting age from 21 to 18","Introduced EVMs","Created anti-defection law"],
+    opts: ["Created Panchayati Raj", "Lowered voting age from 21 to 18", "Introduced EVMs", "Created anti-defection law"],
     ans: 1,
     exp: "The 61st Amendment lowered the voting age from 21 to 18, enfranchising approximately 50 million young Indians overnight. Rajiv Gandhi's government passed it in 1988, came into force in 1989 — before which many countries still had a 21+ voting age."
   },
   {
     q: "NOTA — 'None of the Above' — was introduced on Indian EVMs following a Supreme Court order in:",
-    opts: ["2009","2011","2013","2015"],
+    opts: ["2009", "2011", "2013", "2015"],
     ans: 2,
     exp: "NOTA was introduced on October 4, 2013, following a Supreme Court directive in PUCL vs Union of India. The court held that voters have the right to reject all candidates. NOTA does not invalidate the election but allows formal dissent without abstaining."
   },
   {
     q: "Which constitutional amendment gave India the Panchayati Raj system?",
-    opts: ["42nd Amendment","61st Amendment","73rd Amendment","86th Amendment"],
+    opts: ["42nd Amendment", "61st Amendment", "73rd Amendment", "86th Amendment"],
     ans: 2,
     exp: "The 73rd Constitutional Amendment (1992), under PM Narasimha Rao, constitutionalised rural local self-governance — creating three-tier Panchayati Raj. The companion 74th Amendment did the same for urban bodies. Together they created over 3 million elected grassroots representatives."
   },
   {
     q: "Which general election produced the largest ever seat majority in Lok Sabha history?",
-    opts: ["1971 (Garibi Hatao)","1977 (Post-Emergency)","1980 (Indira Returns)","1984 (Sympathy Wave)"],
+    opts: ["1971 (Garibi Hatao)", "1977 (Post-Emergency)", "1980 (Indira Returns)", "1984 (Sympathy Wave)"],
     ans: 3,
     exp: "The 1984 election — held weeks after Indira Gandhi's assassination — gave Congress 404 of 542 seats (74.5%), the largest majority ever in Lok Sabha history. Rajiv Gandhi won on a wave of national sympathy and moral outrage. The vote share was 48.1% — also never matched since."
   },
   {
     q: "The One Nation One Election bill (129th Constitutional Amendment) was introduced in Parliament in:",
-    opts: ["September 2024","December 2024","February 2025","April 2025"],
+    opts: ["September 2024", "December 2024", "February 2025", "April 2025"],
     ans: 1,
     exp: "The Constitution (129th Amendment) Bill was introduced in the Lok Sabha on December 17, 2024 by Law Minister Arjun Ram Meghwal. It was referred to a 39-member Joint Parliamentary Committee. If passed and implemented, the earliest synchronised elections could happen around 2034."
   },
   {
     q: "The ancient Kudavolai system mentioned in the Uttaramerur inscription was a form of:",
-    opts: ["Land tax collection","Lottery-based village election","Military recruitment","Census counting"],
+    opts: ["Land tax collection", "Lottery-based village election", "Military recruitment", "Census counting"],
     ans: 1,
     exp: "The Kudavolai system, documented in a 10th-century CE Chola-era inscription at Uttaramerur (Tamil Nadu), was a sophisticated village election method where candidate names were written on palm leaves, placed in a pot, and drawn out by a young boy — an ancient secret ballot. It specified eligibility criteria, disqualification rules, and term limits."
   }
@@ -3343,57 +3344,50 @@ const quizData = [
 
 let qIdx = 0, score = 0, answered = false;
 
+// Initialize the quiz and attach single event listeners
 function initQuiz() {
   renderQuestion();
-// Quiz next button handler
-    document.getElementById('quiz-next')?.addEventListener('click', () => {
-qIdx++;
-if (qIdx >= quizData.length) showScore();
-else renderQuestion();
- });
   
-// Quiz restart button handler
-document.getElementById('quiz-restart')?.addEventListener('click', () => {
-qIdx = 0; 
-  score = 0; 
-answered = false;
-document.getElementById('quiz-score')?.classList.add('hidden');
-document.getElementById('quiz-main')?.classList.remove('hidden');
-renderQuestion();
-});
+  // Next button handler
+  document.getElementById('quiz-next')?.addEventListener('click', () => {
+    qIdx++;
+    if (qIdx >= quizData.length) {
+      showScore();
+    } else {
+      renderQuestion();
+    }
+  });
+  
+  // Restart button handler
+  document.getElementById('quiz-restart')?.addEventListener('click', () => {
+    qIdx = 0; 
+    score = 0; 
+    answered = false;
+    document.getElementById('quiz-score')?.classList.add('hidden');
+    document.getElementById('quiz-main')?.classList.remove('hidden');
+    renderQuestion();
+  });
+}
 
-// Show final score screen
-function showScore() {
- answered = false;
-const pct = Math.round((score / quizData.length) * 100);
-const emoji = score >= 8 ? '🏆' : score >= 5 ? '🎯' : '📚';
-
-const scoreEl = document.getElementById('quiz-score');
- if (!scoreEl) return;
- scoreEl.classList.remove('hidden');
- document.getElementById('quiz-main')?.classList.add('hidden');
-
- scoreEl.innerHTML = `
-  <div style="font-size:3rem;margin-bottom:1rem">${emoji}</div>
-  <div style="font-size:1.5rem;color:var(--paper)">You scored ${score} / ${quizData.length}</div>
-<div style="font-size:0.85rem;color:var(--dusty);margin-top:1rem;font-style:italic">
-    ${score >= 8 ? 'Outstanding! You are an election expert.' : score >= 5 ? 'Good knowledge! Keep exploring.' : 'Great start — continue your journey!'}
-    </div>
- <button class="btn-evm amber" style="margin-top:2rem" id="quiz-restart">Try Again →</button>
-  `;
- }
+function renderQuestion() {
+  answered = false;
+  
   const q = quizData[qIdx];
   const pct = Math.round((qIdx / quizData.length) * 100);
 
+  // Update Progress Bar
   const progFill = document.getElementById('quiz-prog-fill');
   if (progFill) progFill.style.width = pct + '%';
 
+  // Update Question Counter
   const numEl = document.getElementById('quiz-q-num');
   if (numEl) numEl.textContent = `Question ${qIdx + 1} of ${quizData.length}`;
 
+  // Update Question Text
   const qEl = document.getElementById('quiz-question');
   if (qEl) qEl.textContent = q.q;
 
+  // Render Options
   const optsEl = document.getElementById('quiz-options');
   if (!optsEl) return;
   optsEl.innerHTML = '';
@@ -3405,8 +3399,13 @@ const scoreEl = document.getElementById('quiz-score');
     optsEl.appendChild(btn);
   });
 
+  // Reset UI Feedback
   const fb = document.getElementById('quiz-feedback');
-  if (fb) { fb.innerHTML = ''; fb.style.display = 'none'; }
+  if (fb) { 
+    fb.innerHTML = ''; 
+    fb.style.display = 'none'; 
+  }
+  
   const next = document.getElementById('quiz-next');
   if (next) next.style.display = 'none';
 }
@@ -3414,17 +3413,32 @@ const scoreEl = document.getElementById('quiz-score');
 function handleAnswer(idx, btn) {
   if (answered) return;
   answered = true;
+  
   const q = quizData[qIdx];
   const opts = document.querySelectorAll('.quiz-opt');
+  
+  // Disable all options and show the correct one
+ 
   opts.forEach(o => o.disabled = true);
   opts[q.ans].classList.add('correct');
-  if (idx !== q.ans) btn.classList.add('wrong');
-  else score++;
+  
+  // Mark selected answer as wrong or increase score
+  
+  if (idx !== q.ans) {
+    btn.classList.add('wrong');
+  } else {
+    score++;
+  }
+  
+   // Show explanation
+
   const fb = document.getElementById('quiz-feedback');
   if (fb) {
     fb.style.display = 'block';
     fb.innerHTML = `<strong style="color:${idx === q.ans ? '#6BC99A' : '#E07070'}">${idx === q.ans ? '✓ Correct!' : '✗ Incorrect.'}</strong> ${q.exp}`;
   }
+  
+  // Show next button
   const next = document.getElementById('quiz-next');
   if (next) {
     next.style.display = 'inline-block';
@@ -3432,22 +3446,30 @@ function handleAnswer(idx, btn) {
   }
 }
 
+// Show final score screen
 function showScore() {
   document.getElementById('quiz-main')?.classList.add('hidden');
+  
   const scoreEl = document.getElementById('quiz-score');
   scoreEl?.classList.remove('hidden');
+  
   const emoji = score >= 9 ? '🏆' : score >= 7 ? '🎯' : score >= 5 ? '📜' : '📚';
   const msg = score >= 9 ? 'Extraordinary! You could run the ECI.'
     : score >= 7 ? 'Impressive. A true citizen of democracy.'
     : score >= 5 ? 'Good foundation. Keep reading Matdan.'
     : 'Democracy rewards the curious. Try again.';
+    
   const numEl = document.getElementById('qs-num');
   if (numEl) numEl.textContent = `${score}/${quizData.length}`;
+  
   const emEl = document.getElementById('qs-emoji');
   if (emEl) emEl.textContent = emoji;
+  
   const msgEl = document.getElementById('qs-message');
   if (msgEl) msgEl.textContent = msg;
 }
+
+
 
 // ─── MODAL CLOSE ON BACKDROP ─────────────────────────────────
 document.addEventListener('click', e => {
