@@ -3345,29 +3345,43 @@ let qIdx = 0, score = 0, answered = false;
 
 function initQuiz() {
   renderQuestion();
-  document.getElementById('quiz-next')?.addEventListener('click', () => {
-    qIdx++;
-    if (qIdx >= quizData.length) showScore();
-    else renderQuestion();
-  });
-  document.getElementById('quiz-restart')?.addEventListener('click', () => {
-    qIdx = 0; score = 0; answered = false;
-    document.getElementById('quiz-score')?.classList.add('hidden');
-    document.getElementById('quiz-main')?.classList.remove('hidden');
-    renderQuestion();
-  });
-}
-function nextQuestion() {
-  currentQ++;
-  renderQuiz();
-}
+// Quiz next button handler
+    document.getElementById('quiz-next')?.addEventListener('click', () => {
+qIdx++;
+if (qIdx >= quizData.length) showScore();
+else renderQuestion();
+ });
+  
+// Quiz restart button handler
+document.getElementById('quiz-restart')?.addEventListener('click', () => {
+qIdx = 0; 
+  score = 0; 
+answered = false;
+document.getElementById('quiz-score')?.classList.add('hidden');
+document.getElementById('quiz-main')?.classList.remove('hidden');
+renderQuestion();
+});
 
-function resetQuiz() {
-  currentQ = 0; score = 0; answered = false;
-  renderQuiz();
-}
-function renderQuestion() {
-  answered = false;
+// Show final score screen
+function showScore() {
+ answered = false;
+const pct = Math.round((score / quizData.length) * 100);
+const emoji = score >= 8 ? '🏆' : score >= 5 ? '🎯' : '📚';
+
+const scoreEl = document.getElementById('quiz-score');
+ if (!scoreEl) return;
+ scoreEl.classList.remove('hidden');
+ document.getElementById('quiz-main')?.classList.add('hidden');
+
+ scoreEl.innerHTML = `
+  <div style="font-size:3rem;margin-bottom:1rem">${emoji}</div>
+  <div style="font-size:1.5rem;color:var(--paper)">You scored ${score} / ${quizData.length}</div>
+<div style="font-size:0.85rem;color:var(--dusty);margin-top:1rem;font-style:italic">
+    ${score >= 8 ? 'Outstanding! You are an election expert.' : score >= 5 ? 'Good knowledge! Keep exploring.' : 'Great start — continue your journey!'}
+    </div>
+ <button class="btn-evm amber" style="margin-top:2rem" id="quiz-restart">Try Again →</button>
+  `;
+ }
   const q = quizData[qIdx];
   const pct = Math.round((qIdx / quizData.length) * 100);
 
