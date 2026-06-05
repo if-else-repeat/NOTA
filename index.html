@@ -3357,15 +3357,7 @@ function initQuiz() {
     renderQuestion();
   });
 }
-function nextQuestion() {
-  currentQ++;
-  renderQuiz();
-}
 
-function resetQuiz() {
-  currentQ = 0; score = 0; answered = false;
-  renderQuiz();
-}
 function renderQuestion() {
   answered = false;
   const q = quizData[qIdx];
@@ -3393,8 +3385,8 @@ function renderQuestion() {
 
   const fb = document.getElementById('quiz-feedback');
   if (fb) { fb.innerHTML = ''; fb.style.display = 'none'; }
-  const next = document.getElementById('quiz-next');
-  if (next) next.style.display = 'none';
+  const nextWrap = document.querySelector('.quiz-next');
+if (nextWrap) nextWrap.style.display = 'none';
 }
 
 function handleAnswer(idx, btn) {
@@ -3411,11 +3403,17 @@ function handleAnswer(idx, btn) {
     fb.style.display = 'block';
     fb.innerHTML = `<strong style="color:${idx === q.ans ? '#6BC99A' : '#E07070'}">${idx === q.ans ? '✓ Correct!' : '✗ Incorrect.'}</strong> ${q.exp}`;
   }
-  const next = document.getElementById('quiz-next');
-  if (next) {
-    next.style.display = 'inline-block';
-    next.textContent = qIdx < quizData.length - 1 ? 'Next Question →' : 'See Results →';
-  }
+  const nextWrap = document.querySelector('.quiz-next');
+const next = document.getElementById('quiz-next');
+
+if (nextWrap) nextWrap.style.display = 'block';
+
+if (next) {
+  next.textContent =
+    qIdx < quizData.length - 1
+      ? 'Next Question →'
+      : 'See Results →';
+}
 }
 
 function showScore() {
