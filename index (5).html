@@ -1,0 +1,3533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#E8761A">
+  <meta name="description" content="NOTA — None of the Above. India's most comprehensive interactive election guide. From Vaishali's ancient republic to 968 million voters in 2024.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>NOTA — None of the Above · India's Election Universe</title>
+  <style>
+/* ═══════════════════════════════════════════════════════════════
+   NOTA — None of the Above · Master Stylesheet
+   Aesthetic: Vintage Ink Press × Modern Editorial × EVM Tactile
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500;700&family=Noto+Sans+Devanagari:wght@300;400;600;700;900&family=Bebas+Neue&display=swap');
+
+/* ─── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --ink:       #0D0A06;
+  --ink-mid:   #1A1410;
+  --ink-soft:  #231D17;
+  --paper:     #F2EBD9;
+  --paper-dark:#E8DFC8;
+  --paper-deep:#D9CEB2;
+  --amber:     #E8761A;
+  --amber-lt:  #F4A44A;
+  --amber-dk:  #B85A0E;
+  --gold:      #C9A23A;
+  --gold-lt:   #E5C96A;
+  --khaki:     #8B7355;
+  --rust:      #C0392B;
+  --sage:      #2D6B4F;
+  --dusty:     #7A6A55;
+  --muted:     #9A8A72;
+  --faint:     rgba(232,215,190,0.08);
+  --border:    rgba(201,162,58,0.18);
+  --border-lt: rgba(201,162,58,0.08);
+
+  --ff-serif:  'Libre Baskerville', Georgia, serif;
+  --ff-mono:   'IBM Plex Mono', 'Courier New', monospace;
+  --ff-deva:   'Noto Sans Devanagari', sans-serif;
+  --ff-display:'Bebas Neue', var(--ff-serif);
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── RESET ──────────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--ff-serif);
+  overflow-x: hidden;
+  cursor: default;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── GRAIN OVERLAY ──────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ─── SCROLLBAR ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--ink-mid); }
+::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 2px; }
+
+/* ─── SELECTION ──────────────────────────────────────────────── */
+::selection { background: var(--amber); color: var(--ink); }
+
+/* ═══════════════════════════════════════════════════════════════
+   LOADING SCREEN
+   ═══════════════════════════════════════════════════════════════ */
+#loader {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--ink);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2rem;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.hidden { opacity: 0; visibility: hidden; }
+.loader-wheel {
+  width: 80px; height: 80px;
+  border: 2px solid rgba(232,118,26,0.2);
+  border-top-color: var(--amber);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader-text {
+  font-family: var(--ff-display);
+  font-size: 2.5rem;
+  letter-spacing: 6px;
+  color: var(--amber);
+}
+.loader-sub {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════════════ */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem;
+  background: rgba(13,10,6,0.92);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.3s var(--ease-out);
+}
+#navbar.hide { transform: translateY(-100%); }
+.nav-brand {
+  display: flex; flex-direction: column; gap: 1px; cursor: pointer;
+  text-decoration: none;
+}
+.nav-brand-main {
+  font-family: var(--ff-display);
+  font-size: 1.5rem; letter-spacing: 6px;
+  color: var(--amber); line-height: 1;
+}
+.nav-brand-sub {
+  font-family: var(--ff-mono);
+  font-size: 0.5rem; letter-spacing: 3px;
+  color: var(--muted); text-transform: uppercase;
+}
+.nav-links {
+  display: flex; gap: 0; list-style: none;
+  overflow-x: auto; scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  display: block; padding: 6px 12px;
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; letter-spacing: 1.5px;
+  color: var(--muted); text-decoration: none;
+  text-transform: uppercase; white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 1.5px solid transparent;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+}
+.nav-right {
+  display: flex; align-items: center; gap: 1rem;
+}
+.nav-offline-badge {
+  display: none; font-family: var(--ff-mono);
+  font-size: 0.55rem; letter-spacing: 1px;
+  color: var(--sage); border: 1px solid var(--sage);
+  padding: 2px 8px;
+}
+.nav-offline-badge.show { display: block; }
+.nav-menu-btn {
+  display: none; background: none; border: none;
+  color: var(--paper); cursor: pointer; padding: 4px;
+  font-size: 1.2rem;
+}
+
+/* Mobile nav drawer */
+.nav-drawer {
+  position: fixed; top: 56px; right: 0; bottom: 0; z-index: 999;
+  width: min(300px, 90vw);
+  background: var(--ink-mid);
+  border-left: 1px solid var(--border);
+  transform: translateX(100%);
+  transition: transform 0.3s var(--ease-out);
+  overflow-y: auto; padding: 1.5rem;
+}
+.nav-drawer.open { transform: translateX(0); }
+.nav-drawer ul { list-style: none; }
+.nav-drawer ul li a {
+  display: block; padding: 1rem 0;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem; letter-spacing: 2px;
+  color: var(--muted); text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-lt);
+  transition: color 0.2s;
+}
+.nav-drawer ul li a:hover { color: var(--amber); }
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+  padding: 80px 2rem 4rem;
+}
+
+/* Ink wash background */
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(232,118,26,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,162,58,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 50% at 80% 20%, rgba(201,162,58,0.03) 0%, transparent 60%);
+}
+
+/* Pen-and-ink grid lines */
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(201,162,58,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,162,58,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+/* Tricolor stripes */
+.hero-stripes {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #FF9933 33.33%, white 33.33% 66.66%, #138808 66.66%);
+}
+
+.hero-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; letter-spacing: 5px;
+  color: var(--amber); text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0; animation: fadeUp 0.8s 0.3s var(--ease-out) forwards;
+}
+
+.hero-nota-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(232,118,26,0.08);
+  border: 1px solid rgba(232,118,26,0.25);
+  padding: 8px 20px;
+  margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.8s 0.5s var(--ease-out) forwards;
+}
+.nota-n, .nota-o, .nota-t, .nota-a {
+  font-family: var(--ff-display);
+  font-size: clamp(4rem, 14vw, 10rem);
+  line-height: 0.9;
+  display: inline-block;
+}
+.nota-n { color: var(--paper); opacity:0; animation: stampIn 0.5s 0.6s var(--ease-spring) forwards; }
+.nota-o { color: var(--amber); opacity:0; animation: stampIn 0.5s 0.75s var(--ease-spring) forwards; }
+.nota-t { color: var(--paper); opacity:0; animation: stampIn 0.5s 0.9s var(--ease-spring) forwards; }
+.nota-a { color: var(--gold); opacity:0; animation: stampIn 0.5s 1.05s var(--ease-spring) forwards; }
+
+@keyframes stampIn {
+  from { opacity: 0; transform: scale(1.3) rotate(-3deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-title-block {
+  opacity: 0; animation: fadeUp 0.8s 1.2s var(--ease-out) forwards;
+  margin-bottom: 0.5rem;
+}
+.hero-fullname {
+  font-family: var(--ff-mono);
+  font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+  letter-spacing: 4px; color: var(--muted);
+  text-transform: uppercase;
+}
+.hero-deva {
+  font-family: var(--ff-deva);
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--gold-lt);
+  letter-spacing: 3px; font-weight: 300;
+  opacity: 0; animation: fadeUp 0.8s 1.4s var(--ease-out) forwards;
+  margin-bottom: 2rem;
+}
+.hero-desc {
+  max-width: 520px; font-size: 0.85rem; line-height: 1.9;
+  color: var(--dusty); font-style: italic;
+  opacity: 0; animation: fadeUp 0.8s 1.5s var(--ease-out) forwards;
+  margin-bottom: 2.5rem;
+}
+
+/* Stats ticker */
+.hero-stats {
+  display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp 0.8s 1.6s var(--ease-out) forwards;
+}
+.stat-block { text-align: center; position: relative; }
+.stat-block::after {
+  content: '';
+  position: absolute; right: -1.25rem; top: 20%;
+  height: 60%; width: 1px; background: var(--border);
+}
+.stat-block:last-child::after { display: none; }
+.stat-val {
+  font-family: var(--ff-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--amber); line-height: 1;
+  display: block;
+}
+.stat-lbl {
+  font-family: var(--ff-mono);
+  font-size: 0.55rem; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase;
+  display: block; margin-top: 4px;
+}
+
+/* Hero CTAs */
+.hero-ctas {
+  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  opacity: 0; animation: fadeUp 0.8s 1.7s var(--ease-out) forwards;
+}
+
+/* ─── EVM BUTTON (signature element) ────────────────────────── */
+.btn-evm {
+  position: relative;
+  background: linear-gradient(160deg, #2A2218 0%, #1A1410 50%, #0F0C08 100%);
+  border: 1.5px solid rgba(201,162,58,0.35);
+  border-bottom: 3px solid rgba(201,162,58,0.5);
+  border-right: 2px solid rgba(201,162,58,0.4);
+  color: var(--paper);
+  padding: 12px 28px;
+  font-family: var(--ff-mono);
+  font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: all 0.1s;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+  border-radius: 3px;
+  user-select: none;
+}
+.btn-evm::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent);
+  border-radius: 2px 2px 0 0;
+  pointer-events: none;
+}
+.btn-evm:hover {
+  border-color: rgba(232,118,26,0.6);
+  box-shadow: 0 4px 16px rgba(232,118,26,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+.btn-evm:active {
+  transform: translateY(2px) scale(0.99);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.6), inset 0 2px 4px rgba(0,0,0,0.4);
+  border-bottom-width: 1px;
+  filter: brightness(0.9);
+}
+.btn-evm.amber {
+  background: linear-gradient(160deg, #D4600A 0%, #B84E08 50%, #9A3E06 100%);
+  border-color: rgba(232,118,26,0.7);
+  color: white;
+}
+.btn-evm.amber:hover {
+  background: linear-gradient(160deg, #E8761A 0%, #C8580C 50%, #A84408 100%);
+}
+
+/* Scroll hint */
+.scroll-cue {
+  position: absolute; 
+  bottom: 2.5rem; 
+  
+  /* NEW CENTERING METHOD: Does not use transform, so animations won't break it */
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: max-content;
+  
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 8px;
+  
+  /* Your original animation code is untouched */
+  opacity: 0; 
+  animation: fadeUp 1s 2.2s ease forwards;
+}
+
+.scroll-cue span {
+  font-family: var(--ff-mono);
+  font-size: 0.55rem; 
+  letter-spacing: 3px; 
+  margin-right: -3px; /* Counters the 3px space on the final letter to keep it dead-center */
+  color: var(--muted);
+}
+
+.scroll-cue-line {
+  width: 1px; 
+  height: 50px;
+  background: linear-gradient(to bottom, var(--amber), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* Your original keyframes are untouched */
+@keyframes scrollPulse {
+  0%,100% { opacity: 0.4; transform: scaleY(0.8); }
+  50% { opacity: 1; transform: scaleY(1.1); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TICKER / MARQUEE
+   ═══════════════════════════════════════════════════════════════ */
+.ticker-wrap {
+  background: var(--amber);
+  overflow: hidden; padding: 0;
+  border-top: 1px solid var(--amber-dk);
+  border-bottom: 1px solid var(--amber-dk);
+}
+.ticker-inner {
+  display: flex; width: max-content;
+  animation: ticker 40s linear infinite;
+}
+.ticker-inner:hover { animation-play-state: paused; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-item {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; letter-spacing: 2px;
+  color: var(--ink); text-transform: uppercase;
+  padding: 8px 24px; white-space: nowrap;
+  border-right: 1px solid rgba(0,0,0,0.15);
+}
+.ticker-item::before { content: '● '; font-size: 0.5rem; margin-right: 6px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION SCAFFOLDING
+   ═══════════════════════════════════════════════════════════════ */
+.section { padding: 100px 0; position: relative; }
+.section.alt { background: var(--ink-soft); }
+.section.paper {
+  background: var(--paper);
+  color: var(--ink);
+}
+.container { max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
+.container-wide { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+
+.sec-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.sec-eyebrow::before {
+  content: ''; display: block;
+  width: 30px; height: 1px; background: var(--amber);
+}
+.sec-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  line-height: 0.95; letter-spacing: 1px;
+  color: var(--paper); margin-bottom: 1rem;
+}
+.section.paper .sec-title { color: var(--ink); }
+.sec-title em { color: var(--amber); font-style: normal; }
+.sec-title .deva-inline {
+  font-family: var(--ff-deva);
+  font-size: 0.7em; font-weight: 400; color: var(--gold);
+  vertical-align: middle;
+}
+.sec-sub {
+  font-size: 0.82rem; line-height: 1.95; color: var(--dusty);
+  max-width: 560px; margin-bottom: 3rem; font-style: italic;
+}
+.section.paper .sec-sub { color: var(--khaki); }
+.rule { width: 50px; height: 2px; background: var(--amber); margin: 1.25rem 0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TABS — EVM STYLE
+   ═══════════════════════════════════════════════════════════════ */
+.evm-tabs {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 2.5rem;
+}
+.evm-tab {
+  position: relative;
+  background: linear-gradient(160deg, #2A2218 0%, #1A1410 60%, #0F0C08 100%);
+  border: 1.5px solid rgba(201,162,58,0.25);
+  border-bottom: 3px solid rgba(201,162,58,0.35);
+  color: var(--muted);
+  padding: 10px 18px;
+  font-family: var(--ff-mono);
+  font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; border-radius: 3px;
+  transition: all 0.15s;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+  user-select: none;
+}
+.evm-tab::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.03), transparent 40%);
+  border-radius: 2px; pointer-events: none;
+}
+.evm-tab:hover {
+  color: var(--paper);
+  border-color: rgba(232,118,26,0.4);
+}
+.evm-tab.active {
+  background: linear-gradient(160deg, #8B3E08 0%, #6B2E06 50%, #4A1E04 100%);
+  border-color: rgba(232,118,26,0.7);
+  border-bottom-color: rgba(232,118,26,0.9);
+  color: var(--paper);
+  box-shadow: 0 3px 12px rgba(232,118,26,0.25), inset 0 1px 0 rgba(255,200,100,0.1);
+}
+.evm-tab:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6), inset 0 2px 3px rgba(0,0,0,0.4);
+  border-bottom-width: 1.5px;
+}
+.tab-panel { display: none; animation: fadePanel 0.35s var(--ease-out); }
+.tab-panel.active { display: block; }
+@keyframes fadePanel { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   ELECTION CARDS
+   ═══════════════════════════════════════════════════════════════ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 2px;
+}
+.e-card {
+  background: var(--ink-soft);
+  border: 1px solid var(--border);
+  padding: 1.75rem; position: relative;
+  overflow: hidden; cursor: default;
+  transition: border-color 0.25s, transform 0.25s var(--ease-out);
+}
+.e-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--amber);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s var(--ease-out);
+}
+.e-card:hover { border-color: rgba(232,118,26,0.4); transform: translateY(-3px); }
+.e-card:hover::after { transform: scaleX(1); }
+.e-card-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+.e-card-kicker {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; letter-spacing: 3px; color: var(--amber);
+  text-transform: uppercase; margin-bottom: 0.4rem;
+}
+.e-card-title {
+  font-family: var(--ff-serif);
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--paper); margin-bottom: 0.7rem; line-height: 1.3;
+}
+.e-card-body {
+  font-size: 0.75rem; line-height: 1.85; color: var(--dusty);
+}
+.e-card-tag {
+  display: inline-block; margin-top: 1rem;
+  background: rgba(232,118,26,0.08);
+  border: 1px solid rgba(232,118,26,0.2);
+  color: var(--amber); padding: 3px 10px;
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PROCESS STEPS
+   ═══════════════════════════════════════════════════════════════ */
+.steps { display: flex; flex-direction: column; }
+.step {
+  display: grid; grid-template-columns: 70px 1fr;
+  gap: 1.5rem; padding: 2rem 0;
+  border-bottom: 1px solid var(--border-lt);
+  cursor: default;
+  transition: background 0.2s;
+}
+.step:hover { background: rgba(232,118,26,0.025); }
+.step-n {
+  font-family: var(--ff-display);
+  font-size: 3.5rem; color: rgba(232,118,26,0.12);
+  line-height: 1; text-align: right;
+  transition: color 0.25s;
+}
+.step:hover .step-n { color: rgba(232,118,26,0.35); }
+.step-title {
+  font-family: var(--ff-serif);
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--paper); margin-bottom: 0.5rem;
+}
+.step-body { font-size: 0.76rem; line-height: 1.9; color: var(--dusty); }
+.step-tag {
+  display: inline-block; margin-top: 0.7rem;
+  background: rgba(45,107,79,0.15);
+  border: 1px solid rgba(45,107,79,0.3);
+  color: #6BC99A; padding: 2px 10px;
+  font-family: var(--ff-mono); font-size: 0.58rem; letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NATIONAL TIMELINE — HORIZONTAL SCROLL
+   ═══════════════════════════════════════════════════════════════ */
+#timeline-section { overflow: hidden; }
+.timeline-scroll-wrap {
+  overflow-x: auto; overflow-y: visible;
+  padding: 2rem 0 3rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--amber) transparent;
+  cursor: grab;
+}
+.timeline-scroll-wrap:active { cursor: grabbing; }
+.timeline-track {
+  display: flex; gap: 0;
+  position: relative;
+  width: max-content;
+  padding: 0 3rem;
+}
+/* The spine line */
+.timeline-track::before {
+  content: '';
+  position: absolute; left: 3rem; right: 3rem;
+  top: 34px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--amber) 5%, var(--amber) 95%, transparent);
+}
+.tl-card {
+  width: 240px; flex-shrink: 0;
+  position: relative;
+  margin: 0 8px;
+  cursor: pointer;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: transform 0.2s var(--ease-out);
+}
+.tl-card:hover { transform: translateY(-4px); }
+.tl-node {
+  width: 12px; height: 12px;
+  background: var(--amber);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(232,118,26,0.15);
+  flex-shrink: 0; margin-top: 6px;
+  transition: all 0.25s;
+}
+.tl-card:hover .tl-node { background: var(--amber-lt); box-shadow: 0 0 0 6px rgba(232,118,26,0.2), 0 0 16px rgba(232,118,26,0.25); }
+.tl-content {
+  background: var(--ink-soft);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  transition: border-color 0.25s;
+  flex: 1;
+}
+.tl-card:hover .tl-content { border-color: rgba(232,118,26,0.4); }
+.tl-year-badge {
+  font-family: var(--ff-display);
+  font-size: 1.5rem; letter-spacing: 2px;
+  color: var(--amber); display: block; margin-bottom: 0.25rem;
+}
+.tl-ls-num {
+  font-family: var(--ff-mono);
+  font-size: 0.55rem; letter-spacing: 2px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.tl-winner {
+  font-family: var(--ff-serif);
+  font-size: 0.82rem; font-weight: 700; color: var(--paper);
+  margin-bottom: 0.3rem;
+}
+.tl-seats-bar {
+  width: 100%; height: 4px;
+  background: var(--ink-mid); border-radius: 2px;
+  margin: 0.5rem 0; overflow: hidden;
+}
+.tl-seats-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--amber), var(--gold));
+  transition: width 0.6s var(--ease-out);
+}
+.tl-meta {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; color: var(--muted);
+  display: flex; justify-content: space-between;
+}
+.tl-milestone {
+  font-size: 0.68rem; color: var(--dusty);
+  line-height: 1.6; margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Drag hint */
+.drag-hint {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; color: var(--muted); letter-spacing: 1px;
+  margin-bottom: 1rem; padding-left: 3rem;
+}
+.drag-hint svg { opacity: 0.5; animation: dragBounce 1.5s ease-in-out infinite; }
+@keyframes dragBounce { 0%,100%{transform:translateX(0)} 50%{transform:translateX(8px)} }
+
+/* ═══════════════════════════════════════════════════════════════
+   STATE ELECTIONS — MAP + LIST
+   ═══════════════════════════════════════════════════════════════ */
+.state-layout {
+  display: grid; grid-template-columns: 300px 1fr; gap: 2rem;
+  align-items: start;
+}
+.state-list-panel {
+  background: var(--ink-soft);
+  border: 1px solid var(--border);
+  max-height: 600px; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: var(--amber) transparent;
+}
+.state-list-search {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--ink-mid);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem;
+}
+.state-search-input {
+  width: 100%;
+  background: var(--ink);
+  border: 1px solid var(--border);
+  color: var(--paper); padding: 8px 12px;
+  font-family: var(--ff-mono); font-size: 0.7rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.state-search-input:focus { border-color: var(--amber); }
+.state-search-input::placeholder { color: var(--muted); }
+.state-list-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-lt);
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.state-list-item:hover { background: rgba(232,118,26,0.06); }
+.state-list-item.active { background: rgba(232,118,26,0.12); border-left: 2px solid var(--amber); }
+.sli-name {
+  font-family: var(--ff-serif);
+  font-size: 0.82rem; color: var(--paper); font-weight: 700;
+}
+.sli-region {
+  font-family: var(--ff-mono);
+  font-size: 0.55rem; letter-spacing: 1px; color: var(--muted); text-transform: uppercase;
+  margin-top: 2px;
+}
+.sli-seats {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; color: var(--amber);
+}
+
+/* State detail panel */
+.state-detail {
+  background: var(--ink-soft);
+  border: 1px solid var(--border); padding: 2rem;
+  min-height: 400px;
+}
+.state-detail-empty {
+  display: flex; align-items: center; justify-content: center;
+  height: 400px; color: var(--muted);
+  font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 2px;
+  flex-direction: column; gap: 1rem;
+}
+.sd-header { margin-bottom: 2rem; }
+.sd-name {
+  font-family: var(--ff-display);
+  font-size: 2.5rem; color: var(--amber); letter-spacing: 2px;
+}
+.sd-meta-row {
+  display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.75rem;
+}
+.sd-meta-chip {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; letter-spacing: 1px;
+  color: var(--muted); text-transform: uppercase;
+  background: var(--ink-mid); padding: 4px 10px;
+  border: 1px solid var(--border-lt);
+}
+.sd-elections-title {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 1rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+}
+.sd-election-row {
+  display: grid; grid-template-columns: 60px 1fr auto;
+  gap: 1rem; padding: 1rem 0;
+  border-bottom: 1px solid var(--border-lt);
+  align-items: center;
+  transition: background 0.15s;
+}
+.sd-election-row:hover { background: rgba(232,118,26,0.04); }
+.sd-year {
+  font-family: var(--ff-display);
+  font-size: 1.4rem; color: var(--paper); letter-spacing: 1px;
+}
+.sd-winner-name {
+  font-family: var(--ff-serif);
+  font-size: 0.85rem; font-weight: 700; color: var(--paper); margin-bottom: 2px;
+}
+.sd-cm {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem; color: var(--muted);
+}
+.sd-seats-badge {
+  font-family: var(--ff-display);
+  font-size: 1.2rem; color: var(--amber); text-align: right;
+}
+.sd-seats-label {
+  font-family: var(--ff-mono);
+  font-size: 0.5rem; color: var(--muted); text-align: right; letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PM / CM TIMELINE — VERTICAL SCROLL
+   ═══════════════════════════════════════════════════════════════ */
+.pm-timeline { position: relative; padding-left: 2px; }
+.pm-timeline::before {
+  content: ''; position: absolute;
+  left: 0; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, var(--amber), rgba(232,118,26,0.1));
+}
+.pm-item {
+  position: relative; padding: 0 0 2rem 2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.pm-item:hover { transform: translateX(4px); }
+.pm-dot {
+  position: absolute; left: -5px; top: 6px;
+  width: 12px; height: 12px;
+  background: var(--ink-mid); border: 2px solid var(--amber);
+  border-radius: 50%;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.pm-item:hover .pm-dot {
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgba(232,118,26,0.2);
+}
+.pm-term {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; letter-spacing: 2px; color: var(--amber);
+  text-transform: uppercase; margin-bottom: 0.25rem;
+}
+.pm-name {
+  font-family: var(--ff-serif);
+  font-size: 1.05rem; font-weight: 700; color: var(--paper);
+  margin-bottom: 0.2rem;
+}
+.pm-party {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem; color: var(--muted); margin-bottom: 0.4rem;
+}
+.pm-note { font-size: 0.72rem; color: var(--dusty); line-height: 1.7; }
+.pm-ls {
+  display: inline-block; margin-top: 0.4rem;
+  background: rgba(232,118,26,0.08); border: 1px solid var(--border);
+  color: var(--amber); padding: 2px 8px;
+  font-family: var(--ff-mono); font-size: 0.58rem; letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANCIENT — INK ILLUSTRATION STYLE
+   ═══════════════════════════════════════════════════════════════ */
+#ancient-section {
+  background: var(--paper);
+  color: var(--ink);
+  position: relative; overflow: hidden;
+}
+.ancient-texture {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    radial-gradient(circle at 15% 85%, rgba(139,115,85,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(201,162,58,0.05) 0%, transparent 40%);
+}
+/* Ink sketch decorative border */
+.ink-border {
+  border: 2px solid rgba(139,115,85,0.3);
+  padding: 1.5rem; position: relative;
+  margin-bottom: 2rem;
+}
+.ink-border::before {
+  content: '✦'; position: absolute; top: -10px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper); padding: 0 8px;
+  color: var(--khaki); font-size: 0.7rem;
+}
+.ink-border .sec-title { color: var(--ink); }
+
+.ancient-scroll {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-deep);
+  padding: 2rem; position: relative;
+  box-shadow: inset 0 0 40px rgba(139,115,85,0.1);
+}
+.ancient-scroll p {
+  font-size: 0.82rem; line-height: 2; color: var(--khaki);
+  font-style: italic;
+}
+.ancient-quote-block {
+  border-left: 3px solid var(--amber);
+  padding-left: 1.25rem; margin: 1.5rem 0;
+}
+.ancient-quote-block p {
+  font-family: var(--ff-serif);
+  font-size: 0.9rem; line-height: 1.8; color: var(--ink);
+  font-style: italic;
+}
+.ancient-quote-block cite {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; color: var(--khaki); letter-spacing: 1px;
+  display: block; margin-top: 0.5rem;
+}
+
+/* Ancient doc timeline */
+.ancient-tl { position: relative; }
+.ancient-tl::before {
+  content: ''; position: absolute;
+  left: 24px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, var(--khaki), transparent);
+  opacity: 0.4;
+}
+.atl-item {
+  display: grid; grid-template-columns: 50px 1fr;
+  gap: 1.5rem; margin-bottom: 2.5rem;
+}
+.atl-dot-wrap { display: flex; justify-content: center; padding-top: 4px; }
+.atl-dot {
+  width: 10px; height: 10px;
+  background: var(--amber); border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(232,118,26,0.15);
+}
+.atl-period {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; letter-spacing: 2px; color: #B85A0E;
+  margin-bottom: 0.3rem; text-transform: uppercase;
+}
+.atl-title {
+  font-family: var(--ff-serif);
+  font-size: 1rem; font-weight: 700; color: #1A1410;
+  margin-bottom: 0.4rem;
+}
+.atl-desc { font-size: 0.75rem; line-height: 1.85; color: #6B5A42; }
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCORDION — TACTILE BALLOT STYLE
+   ═══════════════════════════════════════════════════════════════ */
+.accordion { border: 1px solid var(--border); }
+.acc-item { border-bottom: 1px solid var(--border-lt); }
+.acc-item:last-child { border-bottom: none; }
+.acc-trigger {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 1.5rem; cursor: pointer;
+  background: none; border: none; width: 100%;
+  text-align: left;
+  transition: background 0.15s;
+}
+.acc-trigger:hover { background: rgba(232,118,26,0.04); }
+.section.paper .acc-trigger:hover { background: rgba(139,115,85,0.08); }
+.section.paper .acc-icon-box { background: var(--paper-dark); border-color: rgba(139,115,85,0.3); color: var(--amber-dk); }
+.acc-trigger-title {
+  font-family: var(--ff-serif);
+  font-size: 0.92rem; color: var(--paper); font-weight: 700;
+}
+.section.paper .acc-trigger-title { color: var(--ink); }
+.acc-icon-box {
+  width: 22px; height: 22px; flex-shrink: 0;
+  background: var(--ink-mid);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; color: var(--amber);
+  transition: transform 0.3s, background 0.2s;
+}
+.acc-item.open .acc-icon-box { transform: rotate(45deg); background: rgba(232,118,26,0.15); }
+.acc-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s var(--ease-out);
+}
+.acc-item.open .acc-body { max-height: 600px; }
+.acc-body-inner {
+  padding: 0 1.5rem 1.5rem;
+  font-size: 0.76rem; line-height: 1.9; color: var(--dusty);
+}
+.section.paper .acc-body-inner { color: var(--khaki); }
+
+/* ═══════════════════════════════════════════════════════════════
+   ONOE SPLIT
+   ═══════════════════════════════════════════════════════════════ */
+.onoe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+.pros-cons-item {
+  display: flex; gap: 1rem; padding: 1rem 0;
+  border-bottom: 1px solid var(--border-lt);
+  font-size: 0.75rem; line-height: 1.8; color: var(--dusty);
+  align-items: flex-start;
+}
+.pci-icon { flex-shrink: 0; font-size: 0.9rem; margin-top: 2px; }
+.pci-pro .pci-icon { color: #6BC99A; }
+.pci-con .pci-icon { color: #E07070; }
+.pci-label { font-weight: 700; color: var(--paper); margin-right: 4px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LESSONS / MISTAKES
+   ═══════════════════════════════════════════════════════════════ */
+.mistakes-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.mk-card {
+  border: 1px solid rgba(192,57,43,0.2);
+  background: rgba(192,57,43,0.04);
+  padding: 1.5rem; position: relative;
+  overflow: hidden;
+}
+.mk-card::before {
+  content: '!'; position: absolute;
+  right: 1rem; top: 0.5rem;
+  font-family: var(--ff-display); font-size: 4rem;
+  color: rgba(192,57,43,0.06); line-height: 1;
+}
+.mk-year {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; letter-spacing: 3px; color: #E07070;
+  text-transform: uppercase; margin-bottom: 0.4rem;
+}
+.mk-title {
+  font-family: var(--ff-serif);
+  font-size: 1.05rem; font-weight: 700; color: var(--paper);
+  margin-bottom: 0.6rem;
+}
+.mk-body { font-size: 0.74rem; line-height: 1.85; color: var(--dusty); }
+.mk-lesson {
+  margin-top: 1rem; padding-top: 1rem;
+  border-top: 1px solid rgba(192,57,43,0.15);
+  font-size: 0.7rem; color: #6BC99A; line-height: 1.7;
+}
+.mk-lesson::before { content: '→ LESSON: '; color: var(--gold); font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════════
+   FUTURE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.future-cards {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.future-card {
+  background: var(--ink-soft); border: 1px solid var(--border);
+  padding: 1.75rem; position: relative; overflow: hidden;
+}
+.future-card::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--amber), var(--gold));
+}
+.fc-num {
+  font-family: var(--ff-display);
+  font-size: 2.5rem; color: rgba(232,118,26,0.15);
+  line-height: 1; margin-bottom: 0.5rem;
+}
+.fc-title {
+  font-family: var(--ff-serif);
+  font-size: 1rem; font-weight: 700; color: var(--paper);
+  margin-bottom: 0.6rem; line-height: 1.4;
+}
+.fc-body { font-size: 0.74rem; line-height: 1.85; color: var(--dusty); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUIZ
+   ═══════════════════════════════════════════════════════════════ */
+.quiz-wrap { max-width: 680px; }
+.quiz-progress {
+  height: 3px; background: var(--ink-mid);
+  margin-bottom: 2rem; overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber), var(--gold));
+  transition: width 0.5s var(--ease-out);
+}
+.quiz-next-btn {
+  margin-top: 1.5rem; background: var(--saffron); color: #fff;
+  border: none; padding: 10px 24px; font-family: 'Space Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  display: none;
+}
+.quiz-q-num {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem; letter-spacing: 3px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 1rem;
+}
+.quiz-question {
+  font-family: var(--ff-serif);
+  font-size: 1.1rem; line-height: 1.6; color: var(--paper);
+  margin-bottom: 1.75rem; font-weight: 700;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt {
+  position: relative;
+  background: linear-gradient(160deg, #2A2218 0%, #1A1410 60%, #0F0C08 100%);
+  border: 1.5px solid rgba(201,162,58,0.2);
+  border-bottom: 3px solid rgba(201,162,58,0.3);
+  color: var(--muted); padding: 14px 18px;
+  font-family: var(--ff-mono); font-size: 0.72rem;
+  text-align: left; cursor: pointer; border-radius: 3px;
+  transition: all 0.15s;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.quiz-opt::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 40%);
+  border-radius: 2px; pointer-events: none;
+}
+.quiz-opt:hover:not(:disabled) {
+  color: var(--paper); border-color: rgba(232,118,26,0.5);
+  box-shadow: 0 3px 12px rgba(232,118,26,0.15), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.quiz-opt:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6), inset 0 2px 3px rgba(0,0,0,0.4);
+  border-bottom-width: 1.5px;
+}
+.quiz-opt.correct {
+  background: linear-gradient(160deg, #1A3A28 0%, #112A1C 60%, #0A1E14 100%);
+  border-color: rgba(107,201,154,0.6); color: #6BC99A;
+}
+.quiz-opt.wrong {
+  background: linear-gradient(160deg, #3A1A1A 0%, #2A1212 60%, #1E0C0C 100%);
+  border-color: rgba(224,112,112,0.6); color: #E07070;
+}
+.quiz-feedback {
+  margin-top: 1.25rem; padding: 1rem 1.25rem;
+  font-size: 0.76rem; line-height: 1.8;
+  border-left: 3px solid var(--amber); background: rgba(232,118,26,0.05);
+  color: var(--dusty);
+  animation: fadePanel 0.4s ease;
+}
+.quiz-feedback strong { color: var(--paper); }
+.quiz-next { margin-top: 1.5rem; display: none; }
+.quiz-score-screen {
+  text-align: center; padding: 3rem;
+}
+.qs-emoji { font-size: 4rem; margin-bottom: 1rem; }
+.qs-num {
+  font-family: var(--ff-display);
+  font-size: 5rem; color: var(--amber); line-height: 1;
+}
+.qs-label {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem; letter-spacing: 3px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 1.5rem;
+}
+.qs-message {
+  font-family: var(--ff-serif);
+  font-size: 1rem; color: var(--dusty); font-style: italic;
+  margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HIGHLIGHT / INFO BOXES
+   ═══════════════════════════════════════════════════════════════ */
+.callout {
+  background: rgba(232,118,26,0.06);
+  border: 1px solid rgba(232,118,26,0.2);
+  padding: 1.5rem; margin: 2rem 0;
+}
+.callout p { font-size: 0.78rem; line-height: 1.9; color: var(--paper); }
+.callout strong { color: var(--amber); }
+.callout.gold { background: rgba(201,162,58,0.06); border-color: rgba(201,162,58,0.2); }
+.callout.gold p { color: var(--paper); }
+.callout.gold strong { color: var(--gold-lt); }
+
+/* ═══════════════════════════════════════════════════════════════
+   ECI INFOGRAPHIC BOX
+   ═══════════════════════════════════════════════════════════════ */
+.eci-box {
+  background: var(--ink-soft);
+  border: 1px solid rgba(232,118,26,0.2);
+  padding: 2.5rem; margin: 2.5rem 0;
+  position: relative;
+}
+.eci-box-title {
+  font-family: var(--ff-display);
+  font-size: 1.8rem; color: var(--amber);
+  letter-spacing: 2px; margin-bottom: 1rem;
+}
+.eci-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem; margin-top: 1.5rem;
+}
+.eci-item-title {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; letter-spacing: 3px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.eci-item-body { font-size: 0.74rem; line-height: 1.8; color: var(--dusty); }
+
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════ */
+footer {
+  background: var(--ink-mid);
+  border-top: 1px solid var(--border);
+  padding: 4rem 2rem 2rem; text-align: center;
+}
+.footer-tricolor {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, #FF9933 33%, white 33% 66%, #138808 66%);
+  margin: 0 auto 2rem;
+}
+.footer-logo {
+  font-family: var(--ff-display);
+  font-size: 3rem; letter-spacing: 8px; color: var(--amber);
+}
+.footer-tagline {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem; letter-spacing: 3px; color: var(--muted);
+  text-transform: uppercase; margin: 0.5rem 0 2rem;
+}
+.footer-deva {
+  font-family: var(--ff-deva);
+  font-size: 0.9rem; color: var(--gold); margin-bottom: 2rem;
+}
+.footer-links {
+  display: flex; gap: 2rem; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 2rem;
+}
+.footer-links a {
+  font-family: var(--ff-mono); font-size: 0.62rem;
+  color: var(--muted); text-decoration: none; letter-spacing: 1px;
+}
+.footer-links a:hover { color: var(--amber); }
+.footer-copy {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem; color: rgba(154,138,114,0.4);
+  letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ═══════════════════════════════════════════════════════════════
+   NOTABLE ELECTIONS CARDS
+   ═══════════════════════════════════════════════════════════════ */
+.notable-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.notable-card {
+  background: var(--ink-soft); border: 1px solid var(--border);
+  padding: 1.75rem; cursor: pointer;
+  transition: border-color 0.25s, transform 0.25s var(--ease-out);
+  position: relative; overflow: hidden;
+}
+.notable-card:hover { border-color: rgba(201,162,58,0.4); transform: translateY(-3px); }
+.nc-stat {
+  font-family: var(--ff-display);
+  font-size: 2.8rem; color: var(--gold);
+  line-height: 1; margin-bottom: 0.5rem;
+}
+.nc-title {
+  font-family: var(--ff-serif);
+  font-size: 0.95rem; font-weight: 700; color: var(--paper);
+  margin-bottom: 0.75rem; line-height: 1.4;
+}
+.nc-desc { font-size: 0.73rem; line-height: 1.85; color: var(--dusty); }
+
+/* ═══════════════════════════════════════════════════════════════
+   TOOLTIP
+   ═══════════════════════════════════════════════════════════════ */
+[data-tip] { position: relative; cursor: help; }
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; bottom: 100%; left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: var(--ink-mid); color: var(--paper);
+  border: 1px solid var(--border);
+  padding: 6px 10px; font-family: var(--ff-mono);
+  font-size: 0.6rem; letter-spacing: 1px;
+  white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+  z-index: 100;
+}
+[data-tip]:hover::after { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .state-layout { grid-template-columns: 1fr; }
+  .onoe-grid { grid-template-columns: 1fr; }
+  .ancient-grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-menu-btn { display: block; }
+  .nota-n, .nota-o, .nota-t, .nota-a { font-size: clamp(3rem, 18vw, 6rem); }
+  .sec-title { font-size: clamp(2rem, 8vw, 3.5rem); }
+  .steps .step { grid-template-columns: 50px 1fr; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 1rem; }
+  .hero-stats { gap: 1.25rem; }
+  .stat-block::after { display: none; }
+  .evm-tabs { gap: 6px; }
+  .evm-tab { padding: 8px 12px; font-size: 0.58rem; }
+}
+
+/* ─── PARTY COLOR ACCENTS ─────────────────────────────────── */
+.party-bjp { color: #FF9933; }
+.party-inc { color: #00BFFF; }
+.party-aap { color: #1A9CDC; }
+.party-sp  { color: #FF0000; }
+.party-bsp { color: #3399FF; }
+.party-tmc { color: #00CC44; }
+.party-dmk { color: #DD0000; }
+.party-cpim { color: #CC0000; }
+
+</style>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="NOTA — India's Election Universe">
+  <meta property="og:description" content="From Vaishali's republic (600 BCE) to 968 million voters — understand India's democracy completely.">
+  <meta property="og:type" content="website">
+
+<style>
+  section[id] { scroll-margin-top: 64px; }
+</style>
+
+
+<style>
+  #hero svg { 
+    animation: heroSpin 60s linear infinite, heroPulse 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(232,118,26,0.15));
+  }
+  @keyframes heroSpin { to { transform: rotate(360deg); } }
+  @keyframes heroPulse { 
+    0%,100% { filter: drop-shadow(0 0 12px rgba(232,118,26,0.1)); }
+    50% { filter: drop-shadow(0 0 32px rgba(232,118,26,0.3)); }
+  }
+</style>
+
+
+<style>
+  .party-chip {
+    display: inline-block; padding: 2px 8px;
+    font-family: var(--ff-mono); font-size: 0.6rem;
+    border-radius: 2px; margin-left: 6px; vertical-align: middle;
+  }
+  .pc-bjp  { background: rgba(255,153,51,0.15); color:#FF9933; border:1px solid rgba(255,153,51,0.3); }
+  .pc-inc  { background: rgba(0,191,255,0.1); color:#00BFFF; border:1px solid rgba(0,191,255,0.2); }
+  .pc-aap  { background: rgba(26,156,220,0.1); color:#1A9CDC; border:1px solid rgba(26,156,220,0.2); }
+  .pc-sp   { background: rgba(255,0,0,0.08); color:#FF6666; border:1px solid rgba(255,0,0,0.2); }
+  .pc-bsp  { background: rgba(51,153,255,0.08); color:#3399FF; border:1px solid rgba(51,153,255,0.2); }
+  .pc-tmc  { background: rgba(0,204,68,0.08); color:#00CC44; border:1px solid rgba(0,204,68,0.2); }
+  .pc-dmk  { background: rgba(221,0,0,0.08); color:#DD6666; border:1px solid rgba(221,0,0,0.15); }
+  .pc-jdu  { background: rgba(0,128,0,0.08); color:#4CAF50; border:1px solid rgba(0,128,0,0.2); }
+  .pc-bjd  { background: rgba(0,128,255,0.08); color:#5599FF; border:1px solid rgba(0,128,255,0.2); }
+  .pc-other { background: rgba(201,162,58,0.08); color:#C9A23A; border:1px solid rgba(201,162,58,0.2); }
+</style>
+
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     LOADER
+     ════════════════════════════════════════════════════════════ -->
+
+<div id="read-progress" style="
+  position:fixed; top:56px; left:0; z-index:999;
+  height:2px; width:0%; 
+  background:linear-gradient(90deg,#E8761A,#C9A23A,#E8761A);
+  background-size:200% 100%;
+  animation:progressGlow 2s linear infinite;
+  transition:width 0.1s linear;
+  pointer-events:none;
+" aria-hidden="true"></div>
+<style>
+  @keyframes progressGlow {
+    0%{background-position:0% 50%}
+    100%{background-position:200% 50%}
+  }
+
+/* ─── MOBILE OPTIMISATIONS (targeted, non-breaking) ──────── */
+@media (max-width: 768px) {
+  /* Timeline: stack cards vertically on mobile */
+  .timeline-scroll-wrap { padding: 1rem 0 2rem; }
+  .timeline-track { padding: 0 1rem; flex-direction: column; width: 100%; }
+  .timeline-track::before { display: none; }
+  .tl-card { width: 100%; margin: 0 0 1rem; }
+  .tl-card:hover { transform: none; }
+
+  /* PM grid: single col */
+  #pms .container > div[style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  /* Ancient section: single col */
+  #ancient-section .container > div[style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  /* State layout: stack on mobile */
+  .state-layout { grid-template-columns: 1fr !important; }
+  .state-list-panel { max-height: 260px; }
+
+  /* ONOE: single col */
+  .onoe-grid { grid-template-columns: 1fr !important; }
+
+  /* Mistakes grid */
+  .mistakes-grid { grid-template-columns: 1fr !important; }
+
+  /* Future cards */
+  .future-cards { grid-template-columns: 1fr !important; }
+
+  /* Notable cards */
+  .notable-grid { grid-template-columns: 1fr !important; }
+
+  /* Steps: tighter */
+  .step { grid-template-columns: 44px 1fr; gap: 1rem; }
+  .step-n { font-size: 2.5rem; }
+
+  /* ECI box grid */
+  .eci-grid { grid-template-columns: 1fr !important; }
+
+  /* Section padding */
+  .section { padding: 60px 0; }
+
+  /* Hero stats: 2x2 grid */
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .stat-block::after { display: none; }
+
+  /* Cards grid */
+  .cards-grid { grid-template-columns: 1fr !important; }
+
+  /* Tabs: scrollable */
+  .evm-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+  .evm-tab { font-size: 0.58rem; padding: 8px 12px; white-space: nowrap; }
+
+  /* Ancient section */
+  .ink-border { padding: 1rem; }
+  .ancient-quote-block { margin: 1rem 0; }
+
+  /* Footer */
+  footer { padding: 2.5rem 1.5rem 1.5rem; }
+  .footer-links { gap: 1rem; }
+
+  /* Modal */
+  #modal-body { padding: 1.5rem; }
+
+  /* Drag hint hide on mobile (they swipe) */
+  .drag-hint { display: none; }
+}
+
+@media (max-width: 480px) {
+  .nota-n, .nota-o, .nota-t, .nota-a { font-size: 3.5rem !important; }
+  .hero-desc { font-size: 0.78rem; }
+  .sec-title { font-size: 2rem; }
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .btn-evm { font-size: 0.62rem; padding: 10px 20px; }
+  .evm-tab { font-size: 0.55rem; padding: 7px 10px; }
+  .quiz-opt { font-size: 0.68rem; padding: 12px 14px; }
+  .eci-box { padding: 1.25rem; }
+}
+
+</style>
+<script>
+  const rp = document.getElementById('read-progress');
+  if(rp) window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (window.scrollY / (h.scrollHeight - h.clientHeight)) * 100;
+    rp.style.width = Math.min(pct, 100) + '%';
+  }, {passive:true});
+</script>
+
+<div id="loader" role="status" aria-label="Loading">
+  <div class="loader-wheel"></div>
+  <div class="loader-text">NOTA</div>
+  <div class="loader-sub">None of the Above · भारत का लोकतंत्र</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     NAVIGATION
+     ════════════════════════════════════════════════════════════ -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <a href="#hero" class="nav-brand" aria-label="NOTA home">
+    <span class="nav-brand-main">NOTA</span>
+    <span class="nav-brand-sub">None of the Above</span>
+  </a>
+
+  <ul class="nav-links" role="list">
+    <li><a href="#elections">Elections</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#national-tl">Timeline</a></li>
+    <li><a href="#pms">Prime Ministers</a></li>
+    <li><a href="#states">States</a></li>
+    <li><a href="#ancient-section">Ancient India</a></li>
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#onoe">One Nation</a></li>
+    <li><a href="#future">Future</a></li>
+    <li><a href="#quiz-section">Quiz</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <span class="nav-offline-badge" id="offline-badge">OFFLINE</span>
+    <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Open menu">☰</button>
+  </div>
+</nav>
+
+<!-- Mobile Drawer -->
+<nav id="nav-drawer" class="nav-drawer" aria-label="Mobile navigation">
+  <ul>
+    <li><a href="#elections">Elections</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#national-tl">National Timeline</a></li>
+    <li><a href="#pms">Prime Ministers</a></li>
+    <li><a href="#states">States</a></li>
+    <li><a href="#ancient-section">Ancient India</a></li>
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#onoe">One Nation One Election</a></li>
+    <li><a href="#future">Future</a></li>
+    <li><a href="#quiz-section">Take the Quiz</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════════════════════ -->
+<section id="hero" aria-label="Hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-stripes" aria-hidden="true"></div>
+
+  <!-- Ashoka Chakra SVG -->
+  <div style="margin-bottom:1.5rem; opacity:0; animation: fadeUp 1s 0.2s var(--ease-out) forwards;">
+    <svg width="100" height="100" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="opacity:0.7">
+      <circle cx="100" cy="100" r="88" stroke="#E8761A" stroke-width="3" fill="none"/>
+      <circle cx="100" cy="100" r="10" fill="#E8761A"/>
+      <circle cx="100" cy="100" r="4" fill="#0D0A06"/>
+      <g stroke="#E8761A" stroke-width="1.5" opacity="0.8">
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(0 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(15 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(30 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(45 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(60 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(75 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(90 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(105 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(120 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(135 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(150 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(165 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(180 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(195 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(210 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(225 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(240 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(255 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(270 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(285 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(300 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(315 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(330 100 100)"/>
+        <line x1="100" y1="90" x2="100" y2="13" transform="rotate(345 100 100)"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-eyebrow">India's Complete Interactive Election Universe</div>
+
+  <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:1rem">
+    <span class="nota-n">N</span>
+    <span class="nota-o">O</span>
+    <span class="nota-t">T</span>
+    <span class="nota-a">A</span>
+  </div>
+
+  <div class="hero-title-block">
+    <div class="hero-fullname">None of the Above</div>
+  </div>
+  <div class="hero-deva">भारत का लोकतंत्र · नोटा</div>
+  <p class="hero-desc">
+    From the world's first republic in Vaishali (600 BCE) to 968 million voters casting 642 million ballots in 2024 — India's democracy is ancient, complex, and breathtaking. Know it all, right here.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat-block">
+      <span class="stat-val" data-count="968">968M</span>
+      <span class="stat-lbl">Registered Voters</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-val">18</span>
+      <span class="stat-lbl">Lok Sabhas Held</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-val">543</span>
+      <span class="stat-lbl">LS Constituencies</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-val">2,500+</span>
+      <span class="stat-lbl">Yrs of Democracy</span>
+    </div>
+  </div>
+
+  <div class="hero-ctas">
+    <a href="#national-tl" class="btn-evm amber">↓ Explore Timeline</a>
+    <a href="#quiz-section" class="btn-evm">Take the Quiz</a>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-cue-line"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     TICKER
+     ════════════════════════════════════════════════════════════ -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner" id="ticker-inner">
+    <span class="ticker-item">968 Million Eligible Voters in 2024</span>
+    <span class="ticker-item">World's Largest Democracy</span>
+    <span class="ticker-item">Vaishali — World's First Republic · 600 BCE</span>
+    <span class="ticker-item">ECI Established January 25, 1950</span>
+    <span class="ticker-item">642 Million Votes Cast in 2024 — World Record</span>
+    <span class="ticker-item">India Has Held 18 Lok Sabha Elections</span>
+    <span class="ticker-item">3 Million+ Elected Local Representatives</span>
+    <span class="ticker-item">First-Past-The-Post Voting System Since 1952</span>
+    <span class="ticker-item">NOTA Introduced 2013</span>
+    <span class="ticker-item">Women's Reservation Act 2023 — 33% Seats</span>
+    <span class="ticker-item">Bihar 2025 — NDA Wins 202/243, Landslide</span>
+    <span class="ticker-item">Delhi 2025 — BJP Returns After 27 Years, 48/70</span>
+    <span class="ticker-item">CEC Gyanesh Kumar — India's Chair of International IDEA 2026</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 1 — ELECTIONS
+     ════════════════════════════════════════════════════════════ -->
+<section class="section" id="elections">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Understanding India's Elections</div>
+    <h2 class="sec-title reveal">The <em>Four Pillars</em> of<br>Indian Democracy</h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">India doesn't have one election — it has many, running constantly, at every level of government.</p>
+
+    <div data-tabs class="reveal">
+      <div class="evm-tabs" role="tablist">
+        <button class="evm-tab active" data-tab="gen" role="tab">General (Lok Sabha)</button>
+        <button class="evm-tab" data-tab="state" role="tab">State (Vidhan Sabha)</button>
+        <button class="evm-tab" data-tab="rajya" role="tab">Rajya Sabha</button>
+        <button class="evm-tab" data-tab="local" role="tab">Local Bodies</button>
+        <button class="evm-tab" data-tab="pres" role="tab">Presidential</button>
+      </div>
+
+      <!-- General -->
+      <div class="tab-panel active" data-panel="gen" role="tabpanel">
+        <div class="cards-grid">
+          <div class="e-card reveal">
+            <span class="e-card-icon">🏛</span>
+            <div class="e-card-kicker">Every 5 Years</div>
+            <div class="e-card-title">Lok Sabha</div>
+            <p class="e-card-body">The "House of the People." 543 seats, directly elected through First-Past-The-Post. A party or coalition needs 272+ seats to form government. The Prime Minister must maintain this majority to stay in power. Currently held 18 times since 1952.</p>
+            <span class="e-card-tag">543 Constituencies</span>
+          </div>
+          <div class="e-card reveal reveal-delay-1">
+            <span class="e-card-icon">🗳</span>
+            <div class="e-card-kicker">Who Can Vote?</div>
+            <div class="e-card-title">Universal Adult Franchise</div>
+            <p class="e-card-body">Every Indian citizen aged 18+ registered on the electoral roll can vote. No property, tax, literacy, or gender requirements — revolutionary in 1952 when most nations had restricted suffrage. The 61st Amendment (1989) lowered the age from 21 to 18.</p>
+            <span class="e-card-tag">Age 18+ Since 1989</span>
+          </div>
+          <div class="e-card reveal reveal-delay-2">
+            <span class="e-card-icon">📋</span>
+            <div class="e-card-kicker">The Method</div>
+            <div class="e-card-title">First-Past-The-Post</div>
+            <p class="e-card-body">The candidate with the most votes in a constituency wins — even without a majority. Critics argue this can give parties huge seat shares with small vote shares. In 2024, BJP won 240 seats (~44% of seats) with just ~37% of votes. Debate on PR reform continues.</p>
+            <span class="e-card-tag">Winner Takes All</span>
+          </div>
+          <div class="e-card reveal reveal-delay-3">
+            <span class="e-card-icon">⚡</span>
+            <div class="e-card-kicker">Technology</div>
+            <div class="e-card-title">EVM + VVPAT</div>
+            <p class="e-card-body">Since 2004 exclusively, India uses Electronic Voting Machines. VVPAT (Voter Verifiable Paper Audit Trail) added from 2013 — the voter sees a paper slip of their vote for 7 seconds. EVMs are standalone, offline devices. 5 VVPAT slips per constituency are counted since 2019.</p>
+            <span class="e-card-tag">Used Exclusively Since 2004</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- State -->
+      <div class="tab-panel" data-panel="state" role="tabpanel">
+        <div class="cards-grid">
+          <div class="e-card reveal">
+            <span class="e-card-icon">🏟</span>
+            <div class="e-card-kicker">State Legislature</div>
+            <div class="e-card-title">Vidhan Sabha</div>
+            <p class="e-card-body">Each of India's 28 states has its own Vidhan Sabha (legislative assembly). MLAs elected every 5 years through FPTP. The party with most seats forms state government, its leader becomes Chief Minister. Assembly sizes range from 32 (Sikkim) to 403 (UP).</p>
+            <span class="e-card-tag">28 States · 8 UTs</span>
+          </div>
+          <div class="e-card reveal reveal-delay-1">
+            <span class="e-card-icon">📅</span>
+            <div class="e-card-kicker">Staggered Calendar</div>
+            <div class="e-card-title">Always Election Season</div>
+            <p class="e-card-body">State elections happen at different times across the year — the cycle was synchronised with Lok Sabha until 1967, then broke down. Today, India has approximately 5–7 state elections every year. There is almost no month in which some election is not scheduled somewhere in India.</p>
+            <span class="e-card-tag">~5–7 per Year</span>
+          </div>
+          <div class="e-card reveal reveal-delay-2">
+            <span class="e-card-icon">🏢</span>
+            <div class="e-card-kicker">Bicameral States</div>
+            <div class="e-card-title">Vidhan Parishad</div>
+            <p class="e-card-body">6 states have a Vidhan Parishad (upper house): Uttar Pradesh, Bihar, Maharashtra, Karnataka, Andhra Pradesh, and Telangana. Members are elected indirectly by MLAs, graduates, teachers, local bodies — or nominated by the Governor. Adds a reviewing layer to state legislation.</p>
+            <span class="e-card-tag">6 States Have Upper House</span>
+          </div>
+          <div class="e-card reveal reveal-delay-3">
+            <span class="e-card-icon">🎯</span>
+            <div class="e-card-kicker">Constitutional Safety Net</div>
+            <div class="e-card-title">President's Rule</div>
+            <p class="e-card-body">If no party can form a state majority, or constitutional machinery breaks down, the President can impose direct rule under Article 356, dissolving the assembly. Used over 100 times since 1950 — often controversially, particularly during the Emergency era. The SC has since set limits on its use.</p>
+            <span class="e-card-tag">Article 356 · Used 100+ Times</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rajya Sabha -->
+      <div class="tab-panel" data-panel="rajya" role="tabpanel">
+        <div class="cards-grid">
+          <div class="e-card reveal">
+            <span class="e-card-icon">🎩</span>
+            <div class="e-card-kicker">Upper House</div>
+            <div class="e-card-title">Rajya Sabha</div>
+            <p class="e-card-body">The "Council of States" — 245 seats (233 elected + 12 nominated by President for expertise in arts, science, literature, and social service). Never dissolved — one-third of members retire every 2 years. A permanent body that provides continuity and revision.</p>
+            <span class="e-card-tag">6-Year Terms</span>
+          </div>
+          <div class="e-card reveal reveal-delay-1">
+            <span class="e-card-icon">🗺</span>
+            <div class="e-card-kicker">Indirect Election</div>
+            <div class="e-card-title">Elected by MLAs</div>
+            <p class="e-card-body">Citizens don't directly vote for Rajya Sabha. Elected MLAs of each state vote for their state's Rajya Sabha representatives through Single Transferable Vote (STV). Larger states get more seats proportionate to population — UP sends 31 members while Sikkim sends 1.</p>
+            <span class="e-card-tag">Proportional Representation</span>
+          </div>
+          <div class="e-card reveal reveal-delay-2">
+            <span class="e-card-icon">⚖</span>
+            <div class="e-card-kicker">Legislative Powers</div>
+            <div class="e-card-title">The Revising Chamber</div>
+            <p class="e-card-body">Most bills must pass both houses. Money Bills (budget, taxes) only need Lok Sabha — Rajya Sabha can suggest but not block them. Constitutional amendment bills need 2/3 majority in both houses, making the composition of Rajya Sabha crucial to fundamental reforms. Often a check on dominant majorities.</p>
+            <span class="e-card-tag">Revising Chamber</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Local -->
+      <div class="tab-panel" data-panel="local" role="tabpanel">
+        <div class="cards-grid">
+          <div class="e-card reveal">
+            <span class="e-card-icon">🌾</span>
+            <div class="e-card-kicker">Rural Governance · 73rd Amendment</div>
+            <div class="e-card-title">Panchayati Raj</div>
+            <p class="e-card-body">Three-tier rural self-government: Gram Panchayat (village level), Panchayat Samiti (block level), Zila Parishad (district level). Over 260,000 Gram Panchayats. 1/3 (often 1/2) seats reserved for women. Over 1.3 million women elected at this level — one of the world's largest.</p>
+            <span class="e-card-tag">73rd Amendment · 1992</span>
+          </div>
+          <div class="e-card reveal reveal-delay-1">
+            <span class="e-card-icon">🏙</span>
+            <div class="e-card-kicker">Urban Governance · 74th Amendment</div>
+            <div class="e-card-title">Municipal Bodies</div>
+            <p class="e-card-body">Municipal Corporations (large cities), Municipal Councils (smaller towns), Nagar Panchayats (transitional). Mayors and councillors directly elected. Mumbai's BMC, Delhi's MCD, Bengaluru's BBMP — all elected corporations. Conduct separately by State Election Commissions, not the ECI.</p>
+            <span class="e-card-tag">74th Amendment · 1992</span>
+          </div>
+          <div class="e-card reveal reveal-delay-2">
+            <span class="e-card-icon">📊</span>
+            <div class="e-card-kicker">The Scale</div>
+            <div class="e-card-title">3 Million Representatives</div>
+            <p class="e-card-body">India has over 3 million elected local government representatives — more than the total number of elected officials in the USA, UK, France, and Germany combined. This is the least-discussed but most consequential layer of Indian democracy, where decisions on roads, water, sanitation, and schools are made.</p>
+            <span class="e-card-tag">World's Largest Grassroots Democracy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Presidential -->
+      <div class="tab-panel" data-panel="pres" role="tabpanel">
+        <div class="cards-grid">
+          <div class="e-card reveal">
+            <span class="e-card-icon">🎖</span>
+            <div class="e-card-kicker">Head of State</div>
+            <div class="e-card-title">Presidential Election</div>
+            <p class="e-card-body">India's President is elected by a weighted electoral college — all elected MPs (Lok Sabha + Rajya Sabha) and elected MLAs of all states and UTs. Each vote is weighted by the population of the state and the number of MPs. Designed to give equal weight to the Union and all states combined.</p>
+            <span class="e-card-tag">Every 5 Years</span>
+          </div>
+          <div class="e-card reveal reveal-delay-1">
+            <span class="e-card-icon">🏆</span>
+            <div class="e-card-kicker">Vice President</div>
+            <div class="e-card-title">VP Election</div>
+            <p class="e-card-body">India's Vice President is elected by joint sitting of both houses of Parliament through Single Transferable Vote. The VP also serves as ex-officio Chairman of Rajya Sabha, presiding over its sessions. In case of President's absence or death, VP acts as President.</p>
+            <span class="e-card-tag">Joint Parliament Vote</span>
+          </div>
+          <div class="e-card reveal reveal-delay-2">
+            <span class="e-card-icon">⚖</span>
+            <div class="e-card-kicker">Mid-Term Seats</div>
+            <div class="e-card-title">By-Elections (Upachunav)</div>
+            <p class="e-card-body">When a sitting MP or MLA vacates their seat (death, resignation, disqualification), a by-election fills it. These single-seat elections are often seen as mini-referendums on the ruling party's performance. High-profile by-elections — like Gandhi family seats in Amethi/Wayanad — get disproportionate national attention.</p>
+            <span class="e-card-tag">As and When Required</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 2 — ECI & PROCESS
+     ════════════════════════════════════════════════════════════ -->
+<section class="section alt" id="process">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Step by Step</div>
+    <h2 class="sec-title reveal">How an Election<br><em>Actually Works</em></h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">From dissolution of Parliament to swearing-in of government — every step, demystified.</p>
+
+    <div class="eci-box reveal">
+      <div class="eci-box-title">Election Commission of India</div>
+      <p style="font-size:0.78rem;line-height:1.95;color:var(--dusty);max-width:700px">Established January 25, 1950 — one day before India became a republic — the ECI is a constitutional authority operating independently of the executive. Its decisions on election schedules and candidate disqualification cannot be challenged until after elections. First CEC: Sukumar Sen (1950). Most transformative: T.N. Seshan (1990–96). Current CEC: Gyanesh Kumar (from Feb 2025), first appointed under the new CEC Appointment Act. ECs: Dr. Sukhbir Singh Sandhu &amp; Dr. Vivek Joshi.</p>
+      <div class="eci-grid">
+        <div>
+          <div class="eci-item-title">Structure</div>
+          <div class="eci-item-body">1 Chief Election Commissioner + up to 2 Election Commissioners. Appointed by President, but removable only like a Supreme Court judge — ensuring independence from the government they regulate.</div>
+        </div>
+        <div>
+          <div class="eci-item-title">Model Code of Conduct</div>
+          <div class="eci-item-body">Activates the moment elections are announced. No new welfare schemes, no key official transfers, no use of state machinery for campaigns. Governments are functionally frozen during election season.</div>
+        </div>
+        <div>
+          <div class="eci-item-title">Scale in 2024</div>
+          <div class="eci-item-body">15 million government officials deployed. 1.05 million+ polling booths. Every voter within 2km of a booth. A polling officer trekked 2 days through forest to serve a single voter in Arunachal Pradesh.</div>
+        </div>
+        <div>
+          <div class="eci-item-title">State Election Commissions</div>
+          <div class="eci-item-body">Separate SECs handle Panchayat and Municipal elections. They operate under state governments but are constitutionally independent. Not the same as ECI — often underfunded and understaffed.</div>
+        </div>
+        <div>
+          <div class="eci-item-title">SIR 2025 — Electoral Roll Revision</div>
+          <div class="eci-item-body">CEC Gyanesh Kumar launched Special Intensive Revision (SIR) across all states in 2025. Phase 2 covers 12 states + UTs (Nov 2025). Controversy: Bihar opposition alleged names removed from rolls; ECI denied. Final roll published Feb 7, 2026 covering ~97 crore electors.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div>
+          <div class="step-title">Dissolution & Announcement</div>
+          <p class="step-body">The President dissolves Lok Sabha on advice of Council of Ministers (or on term expiry). ECI announces the election schedule — phases, dates, nomination deadlines. Model Code of Conduct immediately kicks in. In 2024, the schedule was announced March 16 for a 7-phase election (April 19 – June 1).</p>
+          <span class="step-tag">MCC Activates</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div>
+          <div class="step-title">Electoral Roll Verification</div>
+          <p class="step-body">The ECI maintains the master list of all eligible voters. Before elections, rolls are updated — new 18-year-olds added, deceased removed, addresses corrected. Citizens can check their registration at voterportal.eci.gov.in. In 2024, 968 million were registered. Special Summary Revision happens every year from October–January.</p>
+          <span class="step-tag">Ongoing Year-Round</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div>
+          <div class="step-title">Candidate Nominations</div>
+          <p class="step-body">Candidates file Form 2A with the Returning Officer. Requirements: Indian citizen, 25+ for Lok Sabha/Vidhan Sabha, 30+ for Rajya Sabha. Security deposit: ₹25,000 (₹12,500 for SC/ST). Forfeited if less than 1/6th of valid votes. Must disclose criminal records, assets, and liabilities. KYC portal makes this public.</p>
+          <span class="step-tag">Form 2A · Affidavit Mandatory</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div>
+          <div class="step-title">Scrutiny, Symbol Allotment & Withdrawal</div>
+          <p class="step-body">Returning Officer examines nominations for validity. Candidates can withdraw within a set window. Then comes symbol allotment — recognised parties have reserved symbols (BJP: Lotus, INC: Hand, AAP: Broom). Independent candidates pick from unassigned symbols. Symbols are critical for voter identification in a linguistically diverse electorate.</p>
+          <span class="step-tag">Symbol = Identity</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">05</div>
+        <div>
+          <div class="step-title">Campaign Period</div>
+          <p class="step-body">Parties canvas across constituencies within strict ECI rules. Expenditure limits: ₹95 lakh per candidate in larger states for Lok Sabha (raised from ₹25 lakh in 2003). ECI monitors paid news, social media disinformation, hate speech. NOTA available since 2013. Exit polls banned from first phase until last vote is cast.</p>
+          <span class="step-tag">₹95L Limit · MCC Enforced</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">06</div>
+        <div>
+          <div class="step-title">Silent Period (48 Hours Before)</div>
+          <p class="step-body">No campaigning, no rallies, no canvassing, no exit poll results, no liquor sales in many areas — 48 hours before polling in any constituency. Called the "silent period" under Section 126 of the Representation of the People Act (1951). Designed to give voters uninterrupted time to form their final judgment.</p>
+          <span class="step-tag">Section 126 RPA 1951</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">07</div>
+        <div>
+          <div class="step-title">Polling Day</div>
+          <p class="step-body">Voters visit assigned booths with Voter ID (EPIC) or 12 other approved photo IDs (Aadhaar accepted). Vote on EVM; VVPAT shows paper slip for 7 seconds. In 2024: first-ever home voting for 85+ seniors and PwD voters via postal ballot + home visit. 642 million people voted — an absolute world record in democratic participation.</p>
+          <span class="step-tag">EPIC · VVPAT · Home Voting</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">08</div>
+        <div>
+          <div class="step-title">Counting & Declaration</div>
+          <p class="step-body">EVMs sealed and triple-locked with multi-party witnesses after polling. Counting day (often 3–4 weeks after last phase): simultaneous counting at constituency counting centers under CCTV. Results declared constituency by constituency. Full results in ~12 hours after counting starts. ECI submits final list to President.</p>
+          <span class="step-tag">Triple-Lock Storage · 5 VVPAT Counted</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">09</div>
+        <div>
+          <div class="step-title">Government Formation</div>
+          <p class="step-body">Party/alliance with 272+ seats invited by President to form government. PM sworn in, appoints Cabinet under Article 75. Within 6 months must prove majority via confidence vote. If no clear majority: President may invite largest party, or the election may result in a hung parliament and coalition negotiations — as happened in 1989, 1996, 1999, 2004, 2009, and 2024.</p>
+          <span class="step-tag">Article 75 · 272+ Majority</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 3 — NATIONAL TIMELINE (HORIZONTAL SCROLL)
+     ════════════════════════════════════════════════════════════ -->
+<section class="section" id="national-tl">
+  <div class="container">
+    <div class="sec-eyebrow reveal">All 18 Lok Sabha Elections</div>
+    <h2 class="sec-title reveal"><em>National Timeline</em><br>1951 → 2024</h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">Every general election, its winner, vote share, turnout, and historic significance. Click any card for details. Drag to explore.</p>
+  </div>
+
+  <div class="drag-hint reveal">
+    <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 7H19M13 1L19 7L13 13" stroke="#9A8A72" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span>Drag or scroll to explore all 18 elections</span>
+  </div>
+
+  <div class="timeline-scroll-wrap" id="timeline-scroll" role="region" aria-label="National election timeline">
+    <div class="timeline-track" id="tl-track"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 4 — PRIME MINISTERS
+     ════════════════════════════════════════════════════════════ -->
+<section class="section alt" id="pms">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Heads of Government</div>
+    <h2 class="sec-title reveal"><em>Every</em> Prime Minister<br>of India</h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">17 individuals have served as India's Prime Minister. From Nehru's unbroken 17 years to Charan Singh's 5 months — a complete record.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem" class="ancient-grid-2">
+      <div id="pm-timeline" class="pm-timeline"></div>
+      <div>
+        <div class="callout reveal" style="margin-top:0">
+          <p><strong>Longest Serving:</strong> Jawaharlal Nehru (1947–1964) — 16 years, 9 months. Won three consecutive elections with the largest majorities.</p>
+        </div>
+        <div class="callout gold reveal">
+          <p><strong>Largest Mandate:</strong> Rajiv Gandhi (1984) — 404 seats with 48.1% vote share. Remains the biggest majority in Lok Sabha history.</p>
+        </div>
+        <div class="callout reveal" style="background:rgba(45,107,79,0.06);border-color:rgba(45,107,79,0.2)">
+          <p><strong>Most Remarkable:</strong> Narendra Modi (2014–present) — India's first PM from non-Congress party to win a full majority since the 1984 emergency aftermath. Currently in his 3rd consecutive term.</p>
+        </div>
+        <div class="callout gold reveal">
+          <p><strong>Shortest Tenure:</strong> Gulzarilal Nanda served as caretaker PM twice — both times for exactly 13 days, after the deaths of Nehru (1964) and Shastri (1966).</p>
+        </div>
+
+        <div class="reveal" style="margin-top:2rem">
+          <div class="sec-eyebrow" style="margin-bottom:1rem">Notable Records</div>
+          <div class="accordion">
+            <div class="acc-item">
+              <button class="acc-trigger">
+                <span class="acc-trigger-title">The Only PM Who Never Faced Parliament</span>
+                <div class="acc-icon-box">+</div>
+              </button>
+              <div class="acc-body"><div class="acc-body-inner">Charan Singh (1979–80) became PM with Congress's outside support, but Congress withdrew before he could face a confidence vote. He resigned without ever addressing Parliament as PM — yet continued as caretaker for 5 months until the 1980 elections.</div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-trigger">
+                <span class="acc-trigger-title">Two PMs Who Died in Office</span>
+                <div class="acc-icon-box">+</div>
+              </button>
+              <div class="acc-body"><div class="acc-body-inner">Jawaharlal Nehru died in office on May 27, 1964. Lal Bahadur Shastri died in Tashkent, USSR on January 11, 1966 — hours after signing the Tashkent Declaration with Pakistan's Ayub Khan, ending the 1965 war. Both deaths triggered caretaker PM Gulzarilal Nanda both times.</div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-trigger">
+                <span class="acc-trigger-title">The Only PM Assassinated While in Office</span>
+                <div class="acc-icon-box">+</div>
+              </button>
+              <div class="acc-body"><div class="acc-body-inner">Indira Gandhi was assassinated by her own bodyguards on October 31, 1984 — in the aftermath of Operation Blue Star, the army action at the Golden Temple in Amritsar. Her son Rajiv Gandhi was sworn in hours later. Rajiv Gandhi himself was assassinated while campaigning in Sriperumbudur in 1991 — but was not PM at the time.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 5 — STATES
+     ════════════════════════════════════════════════════════════ -->
+<section class="section" id="states">
+  <div class="container">
+    <div class="sec-eyebrow reveal">State by State</div>
+    <h2 class="sec-title reveal"><em>28 States,</em><br>All Elections Listed</h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">Every state assembly election, the winning party, seat count, and Chief Minister. Search and explore.</p>
+
+    <div class="state-layout reveal">
+      <div>
+        <div class="state-list-panel">
+          <div class="state-list-search">
+            <input type="search" id="state-search" class="state-search-input" placeholder="Search state..." aria-label="Search states">
+          </div>
+          <div id="state-list" role="list"></div>
+        </div>
+      </div>
+      <div id="state-detail" class="state-detail">
+        <div class="state-detail-empty">
+          <span style="font-size:2rem">🗺</span>
+          <span>Select a state to view election history</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:4rem">
+      <div class="sec-eyebrow reveal">Notable State Elections</div>
+      <div id="notable-grid" class="notable-grid" style="margin-top:1.5rem"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 6 — ANCIENT INDIA (PAPER STYLE)
+     ════════════════════════════════════════════════════════════ -->
+<section class="section paper" id="ancient-section">
+  <div class="ancient-texture" aria-hidden="true"></div>
+  <div class="container">
+    <div class="ink-border">
+      <div class="sec-eyebrow" style="color:var(--amber-dk) !important">The Forgotten Legacy</div>
+      <h2 class="sec-title" style="color:var(--ink) !important">Democracy Didn't Begin<br>in <em>Athens</em>.</h2>
+      <div class="rule"></div>
+      <p class="sec-sub" style="color:var(--khaki)">
+        While the Western world credits Athens (508 BCE) as democracy's origin, textual and archaeological evidence points to something far older on Indian soil — 
+        the Gana Sanghas of northern India, particularly the Licchavi republic of Vaishali.
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem" class="ancient-grid-2">
+      <div>
+        <div class="ancient-scroll reveal" style="color:#5A4830">
+          <p>The Licchavi Gana Sangha of Vaishali had a governing assembly of <strong style="color:#8B3E08">7,707 elected members</strong> — called Rajas — who deliberated and voted on matters of governance. They elected a President (Raja Vishishta), Vice-President (Upa-Raja), Defence Chief (Senapati), and Treasurer (Bhandargarika).</p>
+          <br>
+          <p>The Buddhist Mahavagga text records detailed parliamentary procedures: quorum requirements, voting by ballot (Salaka), a presiding officer, and even a political whip (Ganapuraka) ensuring proper voting. These procedures predate Greek democracy by nearly a century.</p>
+        </div>
+
+        <div class="ancient-quote-block reveal">
+          <p>"Republican forms of government existed in many parts of ancient India... Even in the 4th century BC, there was a republican federation known as the Kshudrak-Malla Sangha, which offered strong resistance to Alexander the Great."</p>
+          <cite>— ECI Report, First General Elections 1951–52</cite>
+        </div>
+
+        <div class="reveal" style="margin-top:2rem">
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span style="background:rgba(232,118,26,0.1);border:1px solid rgba(232,118,26,0.25);color:var(--amber);padding:4px 12px;font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:1px">~600 BCE</span>
+            <span style="background:rgba(232,118,26,0.1);border:1px solid rgba(232,118,26,0.25);color:var(--amber);padding:4px 12px;font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:1px">7,707 Assembly Members</span>
+            <span style="background:rgba(232,118,26,0.1);border:1px solid rgba(232,118,26,0.25);color:var(--amber);padding:4px 12px;font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:1px">Salaka Ballot System</span>
+            <span style="background:rgba(232,118,26,0.1);border:1px solid rgba(232,118,26,0.25);color:var(--amber);padding:4px 12px;font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:1px">Predates Athens by ~100 Years</span>
+            <span style="background:rgba(232,118,26,0.1);border:1px solid rgba(232,118,26,0.25);color:var(--amber);padding:4px 12px;font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:1px">Vajji Confederacy</span>
+          </div>
+        </div>
+
+        <div style="background:rgba(184,90,14,0.08);border:1px solid rgba(184,90,14,0.25);padding:1.5rem;margin-top:2rem">
+          <p style="font-size:0.78rem;line-height:1.9;color:#3A2810"><strong style="color:#8B3E08">Vaishali vs. Athens:</strong> Vaishali's republican system emerged c. 600 BCE. Cleisthenes' democratic reforms in Athens began in 508 BCE. India's republican tradition predates the Western democratic narrative by nearly a century — yet this is almost never taught in Indian schools.</p>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-family:var(--ff-serif);font-size:1.3rem;color:var(--ink);margin-bottom:1.5rem;font-weight:700">Democratic Principles of the Gana Sanghas</h3>
+
+        <div class="accordion reveal">
+          <div class="acc-item">
+            <button class="acc-trigger">
+              <span class="acc-trigger-title" style="color:#1A1410 !important">Salaka Voting — The Ancient Ballot</span>
+              <div class="acc-icon-box" style="background:var(--paper-dark)">+</div>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner" style="color:var(--khaki)">Assembly members voted using Salaka — physical ballots or tokens. A designated Salaka-Grahapaka (vote collector) impartially collected these votes. The Mahavagga — one of the oldest texts in human history to describe formalized voting — documents this process in detail. It is the oldest known description of a systematic ballot.</div>
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger">
+              <span class="acc-trigger-title" style="color:#1A1410 !important">Ganapuraka — India's Original Whip</span>
+              <div class="acc-icon-box" style="background:var(--paper-dark)">+</div>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner" style="color:var(--khaki)">The Gana Sanghas had a Ganapuraka — an officer specifically appointed to ensure proper voting procedures were followed and quorum was maintained. This is essentially an ancient parliamentary whip. Its existence proves these assemblies were sophisticated enough to require procedural enforcement — they had rules, and they enforced them.</div>
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger">
+              <span class="acc-trigger-title" style="color:#1A1410 !important">Buddhist Sangha as Democratic Model</span>
+              <div class="acc-icon-box" style="background:var(--paper-dark)">+</div>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner" style="color:var(--khaki)">The Buddha explicitly modeled his monastic Sangha on the Licchavi republic. Buddhist Sangha rules preserved in the Pali Canon include formal quorum requirements, motion procedures, repeated announcement of resolutions, and voting by consensus or ballot — making Buddhist monasteries one of history's longest-running democratic institutions.</div>
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger">
+              <span class="acc-trigger-title" style="color:#1A1410 !important">Limitations — Who Could Vote?</span>
+              <div class="acc-icon-box" style="background:var(--paper-dark)">+</div>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner" style="color:var(--khaki)">These were not universal democracies. Voting rights were restricted to male Kshatriyas of founding clans. Women, lower castes (Dasa-Karmakara), and non-citizens were excluded. It was oligarchic republicanism — not mass democracy. Ancient India pioneered representative governance, but it was not the equal suffrage India practices today. The distinction matters enormously.</div>
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger">
+              <span class="acc-trigger-title" style="color:#1A1410 !important">Uttaramerur — The Electoral Constitution in Stone</span>
+              <div class="acc-icon-box" style="background:var(--paper-dark)">+</div>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner" style="color:var(--khaki)">A Chola-era stone inscription at Uttaramerur (Tamil Nadu, c. 920 CE) details extraordinarily precise village election rules: candidate qualifications (must own land, have a house, age 35–70), disqualifications (corrupt officials, relatives of officials, those who handled village funds), the Kudavolai ballot system (names on palm leaves drawn from a pot), and specific term limits. It reads like a constitutional provision — carved in stone over 1,000 years ago.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:2.5rem">
+          <h3 style="font-family:var(--ff-serif);font-size:1.1rem;color:var(--ink);margin-bottom:1.25rem;font-weight:700">Ancient → Modern Timeline</h3>
+          <div id="ancient-tl" class="ancient-tl"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 7 — LESSONS
+     ════════════════════════════════════════════════════════════ -->
+<section class="section alt" id="lessons">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Where India Stumbled</div>
+    <h2 class="sec-title reveal">Electoral<br><em>Lessons Learned</em></h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">Democracy grows through its failures. These are the moments India's democracy faltered — and what it learned.</p>
+
+    <div class="mistakes-grid">
+      <div class="mk-card reveal">
+        <div class="mk-year">1975–1977</div>
+        <div class="mk-title">The Emergency</div>
+        <p class="mk-body">PM Indira Gandhi invoked Article 352, suspending civil liberties, jailing opposition leaders (JP Narayan, Vajpayee, Advani), censoring press, and postponing elections for 21 months. India's darkest democratic hour — democracy itself was suspended by a democratic government.</p>
+        <div class="mk-lesson">44th Amendment (1978) made Emergency harder — "armed rebellion" now required (not just "internal disturbance"). Judiciary's independence strengthened. The 1977 election proved Indians would vote out authoritarianism.</div>
+      </div>
+      <div class="mk-card reveal reveal-delay-1">
+        <div class="mk-year">1967–1985</div>
+        <div class="mk-title">Aaya Ram, Gaya Ram</div>
+        <p class="mk-body">Political defections became epidemic after 1967. Haryana MLA Gaya Lal changed parties three times in a single day. MLAs switched for money, ministerships, or personal grievances — making governments inherently unstable. Multiple state governments fell to floor-crossing within months of elections.</p>
+        <div class="mk-lesson">52nd Amendment (1985) created the Anti-Defection Law. MPs/MLAs who vote against party line or abstain can be disqualified. Imperfect — Speakers (often from ruling party) decide cases — but dramatically reduced casual party-switching.</div>
+      </div>
+      <div class="mk-card reveal reveal-delay-2">
+        <div class="mk-year">1970s–1990s</div>
+        <div class="mk-title">Booth Capturing & Electoral Violence</div>
+        <p class="mk-body">Booth capturing — armed groups stuffing ballot boxes or intimidating voters — was rampant in Bihar, UP, and West Bengal from the 1970s through 1990s. Bihar elections were particularly notorious. Hundreds of lives were lost to electoral violence. Democracy was effectively unavailable to many voters.</p>
+        <div class="mk-lesson">T.N. Seshan (CEC 1990–96) enforced MCC ruthlessly, repolled entire constituencies, deployed security forces. EVMs eliminated ballot-stuffing from 2004. Central security forces now deployed for all major elections. Electoral violence has dramatically decreased.</div>
+      </div>
+      <div class="mk-card reveal">
+        <div class="mk-year">1909 — Colonial Legacy</div>
+        <div class="mk-title">Separate Electorates</div>
+        <p class="mk-body">The 1909 Morley-Minto Reforms introduced separate Muslim electorates — only Muslims could vote for Muslim seats. This politically institutionalised religious identity in voting, planted seeds of communal politics that contributed to Partition demands and the devastating 1947 Partition, which killed up to 2 million people.</p>
+        <div class="mk-lesson">India's Constitution explicitly rejected separate electorates for religion. All citizens vote in the same constituency regardless of religion. SC/ST reservations are reserved seats — not separate electorates. Representation without segregation: a key distinction India got right.</div>
+      </div>
+      <div class="mk-card reveal reveal-delay-1">
+        <div class="mk-year">Ongoing</div>
+        <div class="mk-title">Criminalisation & Money in Politics</div>
+        <p class="mk-body">The 2024 Lok Sabha election cost an estimated ₹1.35 lakh crore (~$16B) — possibly the world's most expensive. 46% of winning candidates in 2024 had declared criminal cases (many serious). Despite ECI's KYC portal and spending limits, actual expenditure dwarfs official figures. The nexus of money, muscle, and electoral success remains deep.</p>
+        <div class="mk-lesson">SC repeatedly demanded Parliament disqualify convicted candidates — Parliament has resisted. Electoral Bonds scheme (2018–2024) allowed anonymous corporate funding until SC struck it down in Feb 2024. A replacement framework is still being debated. Transparency in political finance remains India's biggest unresolved democratic challenge.</div>
+      </div>
+      <div class="mk-card reveal reveal-delay-2">
+        <div class="mk-year">1967–ongoing</div>
+        <div class="mk-title">The Broken Synchronisation</div>
+        <p class="mk-body">The breakdown of simultaneous elections in 1967–68 means India has been in near-perpetual election mode for 55+ years. The MCC paralyses governance regularly, development schemes get delayed, campaign spending is enormous, and politicians focus on winning the next election rather than governing. India is almost always "election season" somewhere.</p>
+        <div class="mk-lesson">The One Nation One Election proposal (129th Amendment, 2024) directly addresses this. But critics argue the cure may be worse than the disease — truncating states' terms, concentrating power, and suppressing regional issues. The debate is India's most important current democratic conversation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 8 — ONE NATION ONE ELECTION
+     ════════════════════════════════════════════════════════════ -->
+<section class="section" id="onoe">
+  <div class="container">
+    <div class="sec-eyebrow reveal">The Ongoing Debate</div>
+    <h2 class="sec-title reveal"><em>One Nation,</em><br>One Election</h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">The most consequential electoral reform proposal in India today. Here is the full picture — without the partisan noise.</p>
+
+    <div class="callout reveal">
+      <p><strong>What it is:</strong> Synchronise all elections — Lok Sabha + all 28 state assemblies + eventually local bodies — so they happen in the same window. India did this 1952–1967. The Constitution (129th Amendment) Bill was introduced December 17, 2024 and is currently under Joint Parliamentary Committee review. <strong>Earliest possible: 2034.</strong></p>
+    </div>
+
+    <div class="onoe-grid reveal">
+      <div>
+        <h3 style="font-family:var(--ff-serif);font-size:1.2rem;color:var(--paper);margin-bottom:1.25rem;font-weight:700">Arguments For</h3>
+        <div class="pros-cons-item pci-pro">
+          <span class="pci-icon">✓</span>
+          <span><span class="pci-label">Cost Reduction:</span> India spends ₹4,000+ crore per general election. Running multiple elections year-round multiplies costs. ONOE could halve cumulative expenditure.</span>
+        </div>
+        <div class="pros-cons-item pci-pro">
+          <span class="pci-icon">✓</span>
+          <span><span class="pci-label">End MCC Paralysis:</span> State elections trigger MCC, freezing policy in those states. With staggered elections, some states are always under MCC — development schemes perpetually delayed.</span>
+        </div>
+        <div class="pros-cons-item pci-pro">
+          <span class="pci-icon">✓</span>
+          <span><span class="pci-label">Governance Focus:</span> Perpetual election mode means governing parties spend 40%+ of their term in campaign mode. ONOE would give longer governance windows.</span>
+        </div>
+        <div class="pros-cons-item pci-pro">
+          <span class="pci-icon">✓</span>
+          <span><span class="pci-label">Historical Precedent:</span> India successfully ran simultaneous elections 4 times (1952–1967). Sweden, Belgium, and Nepal do it now. Not an untested concept.</span>
+        </div>
+        <div class="pros-cons-item pci-pro">
+          <span class="pci-icon">✓</span>
+          <span><span class="pci-label">Public Support:</span> Kovind Committee (2024) received 21,558 responses — over 80% in favour. Public appears to support simplification.</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family:var(--ff-serif);font-size:1.2rem;color:var(--paper);margin-bottom:1.25rem;font-weight:700">Arguments Against</h3>
+        <div class="pros-cons-item pci-con">
+          <span class="pci-icon">✗</span>
+          <span><span class="pci-label">Federalism Risk:</span> Truncating state assembly terms to align with Lok Sabha overrides states' constitutional rights. Critics see this as centralisation of power.</span>
+        </div>
+        <div class="pros-cons-item pci-con">
+          <span class="pci-icon">✗</span>
+          <span><span class="pci-label">National Issues Swamp Local:</span> When state and national elections coincide, voters vote on national themes (PM's image), suppressing state-specific issues. Regional parties and local governance suffer.</span>
+        </div>
+        <div class="pros-cons-item pci-con">
+          <span class="pci-icon">✗</span>
+          <span><span class="pci-label">Mid-Term Collapse Problem:</span> If a state government falls (no-confidence, resignation), do we impose President's Rule until the next synchronised election? That could mean 4 years of unelected rule.</span>
+        </div>
+        <div class="pros-cons-item pci-con">
+          <span class="pci-icon">✗</span>
+          <span><span class="pci-label">Constitutional Complexity:</span> Requires amending Articles 82, 83, 172, 327 — some needing ratification by 50%+ of state legislatures. Opposition states may refuse, creating a deadlock.</span>
+        </div>
+        <div class="pros-cons-item pci-con">
+          <span class="pci-icon">✗</span>
+          <span><span class="pci-label">Logistical Doubling:</span> Simultaneous elections require doubling EVM/VVPAT units (currently ~40 lakh units) and security personnel. ECI has flagged this as a genuine challenge.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout gold reveal" style="margin-top:2.5rem">
+      <p><strong>Current Status (2026):</strong> The 129th Constitutional Amendment is under review by a 39-member JPC chaired by BJP MP P.P. Chaudhary. Does NOT include local body elections. Earliest implementation: <strong>2034</strong>, assuming 18th and 19th Lok Sabhas complete full terms. The JPC submitted its report in early 2026. Constitutional experts warn the Bill as drafted may face challenges in the Supreme Court on federalism grounds. Most observers expect significant amendments before final passage.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 9 — FUTURE
+     ════════════════════════════════════════════════════════════ -->
+<section class="section alt" id="future">
+  <div class="container">
+    <div class="sec-eyebrow reveal">What Comes Next</div>
+    <h2 class="sec-title reveal">The Future of<br><em>Indian Democracy</em></h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">India's electoral system is constantly evolving. The next decade will bring some of the most significant changes since 1952.</p>
+
+    <div class="future-cards">
+      <div class="future-card reveal">
+        <div class="fc-num">01</div>
+        <div class="fc-title">Women's Reservation (Nari Shakti Vandan Adhiniyam)</div>
+        <p class="fc-body">The 106th Amendment (2023) reserves 33% of Lok Sabha and state assembly seats for women. The catch: only after the next delimitation exercise (post-2026 census). Earliest: 2029–34. If implemented, it will more than double the number of women in Parliament — from ~15% to a constitutionally guaranteed 33%.</p>
+      </div>
+      <div class="future-card reveal reveal-delay-1">
+        <div class="fc-num">02</div>
+        <div class="fc-title">Delimitation — The Great Redrawing</div>
+        <p class="fc-body">Constituency boundaries have been frozen since 1976 (based on 1971 census). After the upcoming post-2026 census, they will be redrawn. Southern states (Kerala, Tamil Nadu, Karnataka, AP, Telangana) with better population control fear losing Lok Sabha seats to northern states — a major political flashpoint that could reshape Indian federal politics.</p>
+      </div>
+      <div class="future-card reveal reveal-delay-2">
+        <div class="fc-num">03</div>
+        <div class="fc-title">Remote Voting for Internal Migrants</div>
+        <p class="fc-body">ECI's proposed Remote Electronic Voting Machine (R-EVM) would let internal migrants vote in their home constituencies from their workplace city. Prototype demonstrated in 2023. If implemented, this could enfranchise 300+ million internal migrants who currently can't practically vote — potentially the largest expansion of effective franchise since 1952.</p>
+      </div>
+      <div class="future-card reveal">
+        <div class="fc-num">04</div>
+        <div class="fc-title">AI, Deepfakes & Electoral Disinformation</div>
+        <p class="fc-body">The 2024 election saw widespread AI-generated content, voice clones of politicians, and deepfake videos. ECI issued guidelines but enforcement lagged. Future elections need robust legal frameworks. With 968 million voters and social media's reach, India faces the world's largest challenge in protecting electoral integrity from AI disinformation.</p>
+      </div>
+      <div class="future-card reveal reveal-delay-1">
+        <div class="fc-num">05</div>
+        <div class="fc-title">Post-Electoral Bond Era</div>
+        <p class="fc-body">SC struck down India's Electoral Bond scheme in February 2024, calling it unconstitutional for enabling anonymous political funding. The replacement system is being designed. How India structures political finance will significantly shape the money-politics nexus. Transparent funding reform is essential but resisted by virtually every party.</p>
+      </div>
+      <div class="future-card reveal reveal-delay-2">
+        <div class="fc-num">06</div>
+        <div class="fc-title">Proportional Representation Debate</div>
+        <p class="fc-body">In 2024, BJP won 240 seats with ~37% of votes; Congress won 99 with ~21%. The FPTP system can distort outcomes significantly. Academics and electoral reformers are increasingly debating whether India should move toward Proportional Representation or Mixed-Member PR — as New Zealand, Germany, and Japan have done.</p>
+      </div>
+    </div>
+
+    <div class="callout gold reveal" style="margin-top:3rem">
+      <p><strong>Upcoming Elections (2026–2029):</strong> West Bengal Assembly (April–May 2026) · Goa (early 2027) · Himachal Pradesh (2027) · Gujarat (Dec 2027) · Karnataka (May 2028) · Rajasthan, MP, Chhattisgarh (late 2028) · 19th Lok Sabha (May 2029). The perpetual democratic exercise never stops — and Bihar 2025's NDA landslide (202/243) has shifted the political momentum decisively.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 10 — QUIZ
+     ════════════════════════════════════════════════════════════ -->
+<section class="section" id="quiz-section">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Test Yourself</div>
+    <h2 class="sec-title reveal">How Well Do You<br><em>Know</em> Indian Elections?</h2>
+    <div class="rule reveal"></div>
+    <p class="sec-sub reveal">10 questions. Ancient history to modern electoral law. Press the EVM button to answer.</p>
+
+    <div class="quiz-wrap reveal">
+      <!-- Main Quiz -->
+      <div id="quiz-main">
+        <div class="quiz-progress">
+          <div class="quiz-progress-fill" id="quiz-prog-fill" style="width:0%"></div>
+        </div>
+        <div class="quiz-q-num" id="quiz-q-num">Question 1 of 10</div>
+        <div class="quiz-question" id="quiz-question"></div>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-feedback" id="quiz-feedback" style="display:none"></div>
+        <div class="quiz-next">
+          <button class="btn-evm amber" id="quiz-next">Next Question →</button>
+        </div>
+      </div>
+
+      <!-- Score Screen -->
+      <div id="quiz-score" class="quiz-score-screen hidden">
+        <div class="qs-emoji" id="qs-emoji">🏆</div>
+        <div class="qs-num" id="qs-num">0/10</div>
+        <div class="qs-label">Your Score</div>
+        <p class="qs-message" id="qs-message"></p>
+        <button class="btn-evm amber" id="quiz-restart">Try Again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     ELECTION MODAL
+     ════════════════════════════════════════════════════════════ -->
+<div id="election-modal" style="
+  position:fixed;inset:0;z-index:5000;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;
+  padding:1rem;overflow-y:auto;
+" onclick="if(event.target===this)closeModal()" ontouchend="if(event.target===this)closeModal()">
+  <div id="modal-body" style="
+    background:var(--ink-mid);border:1px solid var(--border);
+    padding:2.5rem;max-width:680px;width:100%;
+    position:relative;max-height:90vh;overflow-y:auto;
+  "></div>
+</div>
+
+
+<style>
+  .hidden { display: none !important; }
+  #election-modal { display: none; }
+  #election-modal.open { display: flex; }
+</style>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-tricolor"></div>
+  <div class="footer-logo">NOTA</div>
+  <div class="footer-tagline">None of the Above · India's Complete Election Universe</div>
+  <div class="footer-deva">भारत का लोकतंत्र · मतदान · जय हिन्द</div>
+  <div class="footer-links">
+    <a href="https://eci.gov.in" target="_blank" rel="noopener">Election Commission of India</a>
+    <a href="https://voterportal.eci.gov.in" target="_blank" rel="noopener">Voter Portal</a>
+    <a href="https://prsindia.org" target="_blank" rel="noopener">PRS Legislative Research</a>
+    <a href="https://loksabha.nic.in" target="_blank" rel="noopener">Lok Sabha</a>
+    <a href="https://rajyasabha.nic.in" target="_blank" rel="noopener">Rajya Sabha</a>
+  </div>
+  <div class="footer-copy">
+    NOTA is an independent educational resource. All data sourced from ECI, PRS India, Wikipedia, and published government records.<br>
+    Built with love for democracy. PWA-enabled for offline access.
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════
+     SCRIPTS
+     ════════════════════════════════════════════════════════════ -->
+<script>
+// ═══════════════════════════════════════════════════════════════
+// NOTA — India Election Data
+// ═══════════════════════════════════════════════════════════════
+
+window.NOTA_DATA = {
+
+  // ─── PRIME MINISTERS ─────────────────────────────────────────
+  primeMinsters: [
+    { name: "Jawaharlal Nehru", party: "INC", term: "1947–1964", ls: "1st–3rd", seats: "364 (1952)", note: "First PM. Won 3 successive majorities. Died in office." },
+    { name: "Gulzarilal Nanda", party: "INC", term: "1964 (Caretaker)", ls: "3rd", seats: "—", note: "Caretaker after Nehru's death. 13 days." },
+    { name: "Lal Bahadur Shastri", party: "INC", term: "1964–1966", ls: "3rd", seats: "—", note: "Led India in 1965 Indo-Pak war. Died in Tashkent." },
+    { name: "Gulzarilal Nanda", party: "INC", term: "1966 (Caretaker)", ls: "3rd", seats: "—", note: "Caretaker again. 13 days." },
+    { name: "Indira Gandhi", party: "INC", term: "1966–1977", ls: "4th–5th", seats: "352 (1971)", note: "1971 Bangladesh war. 1975 Emergency declared." },
+    { name: "Morarji Desai", party: "Janata", term: "1977–1979", ls: "6th", seats: "295 (1977)", note: "First non-Congress PM. Janata coalition collapsed." },
+    { name: "Charan Singh", party: "JNP(S)", term: "1979–1980", ls: "6th", seats: "—", note: "Never faced Parliament. Resigned before confidence vote." },
+    { name: "Indira Gandhi", party: "INC", term: "1980–1984", ls: "7th", seats: "353 (1980)", note: "Assassinated October 31, 1984." },
+    { name: "Rajiv Gandhi", party: "INC", term: "1984–1989", ls: "8th", seats: "404 (1984)", note: "Largest ever majority. Bofors scandal eroded popularity." },
+    { name: "V.P. Singh", party: "JD", term: "1989–1990", ls: "9th", seats: "143 (1989)", note: "Mandal Commission implementation. Lost confidence vote." },
+    { name: "Chandra Shekhar", party: "SP(J)", term: "1990–1991", ls: "9th", seats: "54", note: "Minority govt with Congress support. Resigned after 4 months." },
+    { name: "P.V. Narasimha Rao", party: "INC", term: "1991–1996", ls: "10th", seats: "244 (1991)", note: "1991 economic liberalisation. LPG reforms." },
+    { name: "H.D. Deve Gowda", party: "JD", term: "1996–1997", ls: "11th", seats: "46 (1996)", note: "United Front coalition. Lost confidence vote." },
+    { name: "I.K. Gujral", party: "JD", term: "1997–1998", ls: "11th", seats: "—", note: "United Front. Withdrew amid Jain Commission controversy." },
+    { name: "Atal Bihari Vajpayee", party: "BJP", term: "1998–2004", ls: "12th–13th", seats: "182 (1998), 182 (1999)", note: "Pokhran-II tests. Kargil war. NDA coalition." },
+    { name: "Manmohan Singh", party: "INC", term: "2004–2014", ls: "14th–15th", seats: "145 (2004), 206 (2009)", note: "GDP surge. RTI, MGNREGA, Nuclear deal. UPA I & II." },
+    { name: "Narendra Modi", party: "BJP", term: "2014–present", ls: "16th–18th", seats: "282 (2014), 303 (2019), 240 (2024)", note: "3rd consecutive term (2024). First time heading coalition." }
+  ],
+
+  // ─── GENERAL ELECTIONS ───────────────────────────────────────
+  generalElections: [
+    { year: "1951–52", ls: 1, seats: 489, winner: "INC", wSeats: 364, wVote: "45.0%", turnout: "45.7%", phases: 68, voters: "173M", milestone: "World's first mass-franchise election. Literate 15%. Coloured ballot boxes." },
+    { year: "1957", ls: 2, seats: 494, winner: "INC", wSeats: 371, wVote: "47.8%", turnout: "47.7%", phases: 4, voters: "193M", milestone: "Nehru's second successive landslide. EVM concept still 30 years away." },
+    { year: "1962", ls: 3, seats: 494, winner: "INC", wSeats: 361, wVote: "44.7%", turnout: "55.4%", phases: 3, voters: "217M", milestone: "Held same year as Indo-China war. Last election before Nehru's death." },
+    { year: "1967", ls: 4, seats: 520, winner: "INC", wSeats: 283, wVote: "40.8%", turnout: "61.3%", phases: 3, voters: "250M", milestone: "Congress majority slashed. Opposition emerges. Last simultaneous Lok Sabha + all state election." },
+    { year: "1971", ls: 5, seats: 518, winner: "INC(R)", wSeats: 352, wVote: "43.7%", turnout: "55.3%", phases: 3, voters: "274M", milestone: "'Garibi Hatao' campaign. Indira Gandhi's landslide. Bangladesh Liberation War same year." },
+    { year: "1977", ls: 6, seats: 542, winner: "Janata", wSeats: 295, wVote: "41.3%", turnout: "60.5%", phases: 1, voters: "321M", milestone: "Post-Emergency verdict. First non-Congress PM. India's democratic resilience proven." },
+    { year: "1980", ls: 7, seats: 542, winner: "INC(I)", wSeats: 353, wVote: "42.7%", turnout: "56.9%", phases: 2, voters: "356M", milestone: "Indira's comeback. Janata coalition had collapsed. Second huge INC win in a decade." },
+    { year: "1984", ls: 8, seats: 542, winner: "INC", wSeats: 404, wVote: "48.1%", turnout: "64.1%", phases: 2, voters: "400M", milestone: "Sympathy wave after Indira Gandhi's assassination. Largest ever majority in Lok Sabha history." },
+    { year: "1989", ls: 9, seats: 543, winner: "JD", wSeats: 143, wVote: "17.8%", turnout: "62.0%", phases: 4, voters: "499M", milestone: "Congress majority ended. Hung parliament. V.P. Singh PM. Mandal Commission era begins." },
+    { year: "1991", ls: 10, seats: 543, winner: "INC", wSeats: 244, wVote: "36.5%", turnout: "56.7%", phases: 4, voters: "522M", milestone: "Rajiv Gandhi assassinated during campaign. PV Narasimha Rao: LPG economic reforms." },
+    { year: "1996", ls: 11, seats: 543, winner: "BJP", wSeats: 161, wVote: "20.3%", turnout: "57.9%", phases: 4, voters: "592M", milestone: "Three PMs in two years. Hung parliament era. United Front coalition govt." },
+    { year: "1998", ls: 12, seats: 543, winner: "BJP", wSeats: 182, wVote: "25.6%", turnout: "61.9%", phases: 3, voters: "620M", milestone: "Vajpayee's first full mandate. Pokhran-II nuclear tests. Govt fell after 13 months." },
+    { year: "1999", ls: 13, seats: 543, winner: "BJP+NDA", wSeats: 182, wVote: "23.8%", turnout: "59.7%", phases: 5, voters: "620M", milestone: "Post-Kargil election. NDA coalition completed full term. EVM+ballot paper pilot." },
+    { year: "2004", ls: 14, seats: 543, winner: "INC+UPA", wSeats: 145, wVote: "26.5%", turnout: "58.1%", phases: 4, voters: "671M", milestone: "India Shining campaign failed. Manmohan Singh PM. RTI Act passed next year." },
+    { year: "2009", ls: 15, seats: 543, winner: "INC+UPA", wSeats: 206, wVote: "28.6%", turnout: "58.2%", phases: 5, voters: "714M", milestone: "UPA re-elected. MGNREGA, Aadhaar, nuclear deal legacy. EVMs used exclusively." },
+    { year: "2014", ls: 16, seats: 543, winner: "BJP+NDA", wSeats: 282, wVote: "31.0%", turnout: "66.4%", phases: 9, voters: "814M", milestone: "Modi wave. First party to win outright majority since 1984. AAP & Arvind Kejriwal debut." },
+    { year: "2019", ls: 17, seats: 543, winner: "BJP+NDA", wSeats: 303, wVote: "37.4%", turnout: "67.4%", phases: 7, voters: "900M", milestone: "Largest BJP mandate ever. Post-Pulwama airstrikes. VVPAT on all booths. 5-VVPAT count rule." },
+    { year: "2024", ls: 18, seats: 543, winner: "BJP+NDA", wSeats: 240, wVote: "36.6%", turnout: "65.8%", phases: 7, voters: "968M", milestone: "642M votes cast — world record. BJP short of majority, coalition govt. Modi's 3rd term." }
+  ],
+
+  // ─── STATES DATA ─────────────────────────────────────────────
+  states: {
+    "Andhra Pradesh": {
+      region: "south", lsSeats: 25, mlaSeats: 175,
+      elections: [
+        { year: 2024, winner: "TDP+NDA", cm: "N. Chandrababu Naidu", seats: 135 },
+        { year: 2019, winner: "YSRCP", cm: "Y.S. Jagan Mohan Reddy", seats: 151 },
+        { year: 2014, winner: "TDP+BJP", cm: "N. Chandrababu Naidu", seats: 102 },
+        { year: 2009, winner: "INC+PRP", cm: "Y.S. Rajasekhara Reddy→K. Rosaiah", seats: 156 },
+        { year: 2004, winner: "INC+TDP", cm: "Y.S. Rajasekhara Reddy", seats: 185 },
+      ]
+    },
+    "Assam": {
+      region: "northeast", lsSeats: 14, mlaSeats: 126,
+      elections: [
+        { year: 2021, winner: "BJP+Alliance", cm: "Himanta Biswa Sarma", seats: 75 },
+        { year: 2016, winner: "BJP+BPF+AGP", cm: "Sarbananda Sonowal", seats: 86 },
+        { year: 2011, winner: "INC+BPF", cm: "Tarun Gogoi", seats: 78 },
+        { year: 2006, winner: "INC+BPF", cm: "Tarun Gogoi", seats: 59 },
+      ]
+    },
+    "Bihar": {
+      region: "north", lsSeats: 40, mlaSeats: 243,
+      elections: [
+        { year: 2025, winner: "NDA (BJP+JDU)", cm: "Nitish Kumar → Samrat Chaudhary (Apr 2026)", seats: 202 },
+        { year: 2020, winner: "NDA (JDU+BJP)", cm: "Nitish Kumar", seats: 125 },
+        { year: 2015, winner: "JDU+RJD+INC", cm: "Nitish Kumar", seats: 178 },
+        { year: 2010, winner: "JDU+BJP", cm: "Nitish Kumar", seats: 206 },
+        { year: 2005, winner: "JDU+BJP", cm: "Nitish Kumar", seats: 143 },
+        { year: 2000, winner: "RJD+INC", cm: "Rabri Devi", seats: 124 },
+      ]
+    },
+    "Delhi": {
+      region: "north", lsSeats: 7, mlaSeats: 70,
+      elections: [
+        { year: 2025, winner: "BJP", cm: "Rekha Gupta (sworn Feb 20, 2025)", seats: 48 },
+        { year: 2020, winner: "AAP", cm: "Arvind Kejriwal", seats: 62 },
+        { year: 2015, winner: "AAP", cm: "Arvind Kejriwal", seats: 67 },
+        { year: 2013, winner: "AAP (min)", cm: "Arvind Kejriwal", seats: 28 },
+        { year: 2008, winner: "INC", cm: "Sheila Dikshit", seats: 43 },
+        { year: 2003, winner: "INC", cm: "Sheila Dikshit", seats: 47 },
+      ]
+    },
+    "Goa": {
+      region: "west", lsSeats: 2, mlaSeats: 40,
+      elections: [
+        { year: 2022, winner: "BJP", cm: "Pramod Sawant", seats: 20 },
+        { year: 2017, winner: "BJP (min→govt)", cm: "Manohar Parrikar", seats: 13 },
+        { year: 2012, winner: "BJP", cm: "Manohar Parrikar", seats: 21 },
+        { year: 2007, winner: "INC", cm: "Digambar Kamat", seats: 16 },
+      ]
+    },
+    "Gujarat": {
+      region: "west", lsSeats: 26, mlaSeats: 182,
+      elections: [
+        { year: 2022, winner: "BJP", cm: "Bhupendrabhai Patel", seats: 156 },
+        { year: 2017, winner: "BJP", cm: "Vijay Rupani", seats: 99 },
+        { year: 2012, winner: "BJP", cm: "Narendra Modi", seats: 115 },
+        { year: 2007, winner: "BJP", cm: "Narendra Modi", seats: 117 },
+        { year: 2002, winner: "BJP", cm: "Narendra Modi", seats: 127 },
+      ]
+    },
+    "Haryana": {
+      region: "north", lsSeats: 10, mlaSeats: 90,
+      elections: [
+        { year: 2024, winner: "BJP", cm: "Nayab Singh Saini", seats: 48 },
+        { year: 2019, winner: "BJP (min→govt)", cm: "Manohar Lal Khattar", seats: 40 },
+        { year: 2014, winner: "BJP", cm: "Manohar Lal Khattar", seats: 47 },
+        { year: 2009, winner: "INC", cm: "Bhupinder Singh Hooda", seats: 40 },
+        { year: 2005, winner: "INC", cm: "Bhupinder Singh Hooda", seats: 67 },
+      ]
+    },
+    "Himachal Pradesh": {
+      region: "north", lsSeats: 4, mlaSeats: 68,
+      elections: [
+        { year: 2022, winner: "INC", cm: "Sukhvinder Singh Sukhu", seats: 40 },
+        { year: 2017, winner: "BJP", cm: "Jai Ram Thakur", seats: 44 },
+        { year: 2012, winner: "INC", cm: "Virbhadra Singh", seats: 36 },
+        { year: 2007, winner: "BJP", cm: "Prem Kumar Dhumal", seats: 41 },
+      ]
+    },
+    "Jharkhand": {
+      region: "east", lsSeats: 14, mlaSeats: 81,
+      elections: [
+        { year: 2024, winner: "JMM+INC+RJD", cm: "Hemant Soren", seats: 56 },
+        { year: 2019, winner: "JMM+INC+RJD", cm: "Hemant Soren", seats: 47 },
+        { year: 2014, winner: "BJP+AJSU", cm: "Raghubar Das", seats: 37 },
+        { year: 2009, winner: "JMM (min)", cm: "Shibu Soren", seats: 18 },
+      ]
+    },
+    "Karnataka": {
+      region: "south", lsSeats: 28, mlaSeats: 224,
+      elections: [
+        { year: 2023, winner: "INC", cm: "Siddaramaiah", seats: 135 },
+        { year: 2018, winner: "BJP (min→JDS-INC)", cm: "B.S. Yediyurappa / H.D. Kumaraswamy", seats: 104 },
+        { year: 2013, winner: "INC", cm: "Siddaramaiah", seats: 122 },
+        { year: 2008, winner: "BJP", cm: "B.S. Yediyurappa", seats: 110 },
+        { year: 2004, winner: "INC+JDS", cm: "Dharam Singh", seats: 65 },
+      ]
+    },
+    "Kerala": {
+      region: "south", lsSeats: 20, mlaSeats: 140,
+      elections: [
+        { year: 2021, winner: "LDF", cm: "Pinarayi Vijayan", seats: 99 },
+        { year: 2016, winner: "LDF", cm: "Pinarayi Vijayan", seats: 91 },
+        { year: 2011, winner: "UDF", cm: "Oommen Chandy", seats: 72 },
+        { year: 2006, winner: "LDF", cm: "V.S. Achuthanandan", seats: 98 },
+        { year: 2001, winner: "UDF", cm: "A.K. Antony", seats: 99 },
+      ]
+    },
+    "Madhya Pradesh": {
+      region: "north", lsSeats: 29, mlaSeats: 230,
+      elections: [
+        { year: 2023, winner: "BJP", cm: "Mohan Yadav", seats: 163 },
+        { year: 2018, winner: "INC (min→BJP)", cm: "Kamal Nath→Shivraj Singh Chouhan", seats: 114 },
+        { year: 2013, winner: "BJP", cm: "Shivraj Singh Chouhan", seats: 165 },
+        { year: 2008, winner: "BJP", cm: "Shivraj Singh Chouhan", seats: 143 },
+        { year: 2003, winner: "BJP", cm: "Uma Bharti", seats: 173 },
+      ]
+    },
+    "Maharashtra": {
+      region: "west", lsSeats: 48, mlaSeats: 288,
+      elections: [
+        { year: 2024, winner: "BJP+Shiv Sena+NCP (Mahayuti)", cm: "Devendra Fadnavis", seats: 230 },
+        { year: 2019, winner: "BJP+Shiv Sena→MVA", cm: "Uddhav Thackeray→Eknath Shinde", seats: 105 },
+        { year: 2014, winner: "BJP", cm: "Devendra Fadnavis", seats: 122 },
+        { year: 2009, winner: "INC+NCP", cm: "Ashok Chavan→Prithviraj Chavan", seats: 82 },
+        { year: 2004, winner: "INC+NCP", cm: "Vilasrao Deshmukh", seats: 69 },
+      ]
+    },
+    "Manipur": {
+      region: "northeast", lsSeats: 2, mlaSeats: 60,
+      elections: [
+        { year: 2022, winner: "BJP", cm: "N. Biren Singh", seats: 32 },
+        { year: 2017, winner: "BJP+NPP+NPF+LJP", cm: "N. Biren Singh", seats: 21 },
+        { year: 2012, winner: "INC", cm: "O. Ibobi Singh", seats: 42 },
+      ]
+    },
+    "Meghalaya": {
+      region: "northeast", lsSeats: 2, mlaSeats: 60,
+      elections: [
+        { year: 2023, winner: "NPP+coalition", cm: "Conrad Sangma", seats: 26 },
+        { year: 2018, winner: "NPP+coalition", cm: "Conrad Sangma", seats: 19 },
+        { year: 2013, winner: "INC", cm: "Mukul Sangma", seats: 29 },
+      ]
+    },
+    "Mizoram": {
+      region: "northeast", lsSeats: 1, mlaSeats: 40,
+      elections: [
+        { year: 2023, winner: "ZPM", cm: "Lalduhoma", seats: 27 },
+        { year: 2018, winner: "MNF", cm: "Zoramthanga", seats: 26 },
+        { year: 2013, winner: "INC", cm: "Lal Thanhawla", seats: 34 },
+      ]
+    },
+    "Nagaland": {
+      region: "northeast", lsSeats: 1, mlaSeats: 60,
+      elections: [
+        { year: 2023, winner: "NDPP+BJP", cm: "Neiphiu Rio", seats: 37 },
+        { year: 2018, winner: "NDPP+BJP", cm: "Neiphiu Rio", seats: 30 },
+        { year: 2013, winner: "NPF+BJP", cm: "T.R. Zeliang", seats: 38 },
+      ]
+    },
+    "Odisha": {
+      region: "east", lsSeats: 21, mlaSeats: 147,
+      elections: [
+        { year: 2024, winner: "BJP", cm: "Mohan Majhi", seats: 78 },
+        { year: 2019, winner: "BJD", cm: "Naveen Patnaik", seats: 113 },
+        { year: 2014, winner: "BJD", cm: "Naveen Patnaik", seats: 117 },
+        { year: 2009, winner: "BJD", cm: "Naveen Patnaik", seats: 103 },
+        { year: 2004, winner: "BJD+BJP", cm: "Naveen Patnaik", seats: 61 },
+      ]
+    },
+    "Punjab": {
+      region: "north", lsSeats: 13, mlaSeats: 117,
+      elections: [
+        { year: 2022, winner: "AAP", cm: "Bhagwant Mann", seats: 92 },
+        { year: 2017, winner: "INC", cm: "Capt. Amarinder Singh", seats: 77 },
+        { year: 2012, winner: "SAD+BJP", cm: "Parkash Singh Badal", seats: 68 },
+        { year: 2007, winner: "SAD+BJP", cm: "Parkash Singh Badal", seats: 67 },
+        { year: 2002, winner: "INC+BSP", cm: "Amarinder Singh", seats: 62 },
+      ]
+    },
+    "Rajasthan": {
+      region: "north", lsSeats: 25, mlaSeats: 200,
+      elections: [
+        { year: 2023, winner: "BJP", cm: "Bhajan Lal Sharma", seats: 115 },
+        { year: 2018, winner: "INC", cm: "Ashok Gehlot", seats: 100 },
+        { year: 2013, winner: "BJP", cm: "Vasundhara Raje", seats: 163 },
+        { year: 2008, winner: "INC", cm: "Ashok Gehlot", seats: 96 },
+        { year: 2003, winner: "BJP", cm: "Vasundhara Raje", seats: 120 },
+      ]
+    },
+    "Sikkim": {
+      region: "northeast", lsSeats: 1, mlaSeats: 32,
+      elections: [
+        { year: 2024, winner: "SKM", cm: "Prem Singh Tamang", seats: 31 },
+        { year: 2019, winner: "SKM", cm: "Prem Singh Tamang", seats: 17 },
+        { year: 2014, winner: "SDF", cm: "Pawan Kumar Chamling", seats: 22 },
+      ]
+    },
+    "Tamil Nadu": {
+      region: "south", lsSeats: 39, mlaSeats: 234,
+      elections: [
+        { year: 2021, winner: "DMK+INC", cm: "M.K. Stalin", seats: 159 },
+        { year: 2016, winner: "AIADMK", cm: "Edappadi K. Palaniswami", seats: 136 },
+        { year: 2011, winner: "AIADMK+alliances", cm: "J. Jayalalithaa", seats: 150 },
+        { year: 2006, winner: "DMK+INC", cm: "M. Karunanidhi", seats: 96 },
+        { year: 2001, winner: "AIADMK+alliances", cm: "J. Jayalalithaa", seats: 132 },
+      ]
+    },
+    "Telangana": {
+      region: "south", lsSeats: 17, mlaSeats: 119,
+      elections: [
+        { year: 2023, winner: "INC", cm: "A. Revanth Reddy", seats: 64 },
+        { year: 2018, winner: "TRS/BRS", cm: "K. Chandrashekar Rao", seats: 88 },
+        { year: 2014, winner: "TRS", cm: "K. Chandrashekar Rao", seats: 63 },
+      ]
+    },
+    "Tripura": {
+      region: "northeast", lsSeats: 2, mlaSeats: 60,
+      elections: [
+        { year: 2023, winner: "BJP+IPFT+TIPRA", cm: "Manik Saha", seats: 32 },
+        { year: 2018, winner: "BJP+IPFT", cm: "Biplab Kumar Deb", seats: 36 },
+        { year: 2013, winner: "CPM+CPI", cm: "Manik Sarkar", seats: 49 },
+      ]
+    },
+    "Uttar Pradesh": {
+      region: "north", lsSeats: 80, mlaSeats: 403,
+      elections: [
+        { year: 2022, winner: "BJP+NDA", cm: "Yogi Adityanath", seats: 255 },
+        { year: 2017, winner: "BJP+NDA", cm: "Yogi Adityanath", seats: 312 },
+        { year: 2012, winner: "SP", cm: "Akhilesh Yadav", seats: 224 },
+        { year: 2007, winner: "BSP", cm: "Mayawati", seats: 206 },
+        { year: 2002, winner: "BSP+BJP", cm: "Mayawati", seats: 98 },
+      ]
+    },
+    "Uttarakhand": {
+      region: "north", lsSeats: 5, mlaSeats: 70,
+      elections: [
+        { year: 2022, winner: "BJP", cm: "Pushkar Singh Dhami", seats: 47 },
+        { year: 2017, winner: "BJP", cm: "Trivendra Rawat", seats: 57 },
+        { year: 2012, winner: "INC", cm: "Vijay Bahuguna", seats: 32 },
+        { year: 2007, winner: "BJP", cm: "B.C. Khanduri", seats: 34 },
+      ]
+    },
+    "West Bengal": {
+      region: "east", lsSeats: 42, mlaSeats: 294,
+      elections: [
+        { year: 2021, winner: "TMC", cm: "Mamata Banerjee", seats: 213 },
+        { year: 2016, winner: "TMC", cm: "Mamata Banerjee", seats: 211 },
+        { year: 2011, winner: "TMC+INC", cm: "Mamata Banerjee", seats: 184 },
+        { year: 2006, winner: "CPM-Left", cm: "Buddhadeb Bhattacharjee", seats: 235 },
+        { year: 2001, winner: "CPM-Left", cm: "Buddhadeb Bhattacharjee", seats: 199 },
+      ]
+    },
+    "Arunachal Pradesh": {
+      region: "northeast", lsSeats: 2, mlaSeats: 60,
+      elections: [
+        { year: 2024, winner: "BJP", cm: "Pema Khandu", seats: 46 },
+        { year: 2019, winner: "BJP", cm: "Pema Khandu", seats: 41 },
+        { year: 2014, winner: "INC→BJP", cm: "Nabam Tuki→Pema Khandu", seats: 42 },
+      ]
+    },
+    "Chhattisgarh": {
+      region: "east", lsSeats: 11, mlaSeats: 90,
+      elections: [
+        { year: 2023, winner: "BJP", cm: "Vishnu Deo Sai", seats: 54 },
+        { year: 2018, winner: "INC", cm: "Bhupesh Baghel", seats: 68 },
+        { year: 2013, winner: "BJP", cm: "Raman Singh", seats: 49 },
+        { year: 2008, winner: "BJP", cm: "Raman Singh", seats: 50 },
+      ]
+    },
+    "Jammu & Kashmir": {
+      region: "north", lsSeats: 6, mlaSeats: 90,
+      note: "UT since August 5, 2019. Article 370 abrogated.",
+      elections: [
+        { year: 2024, winner: "NC+INC", cm: "Omar Abdullah", seats: 42 },
+        { year: 2014, winner: "BJP+PDP coalition", cm: "Mufti Mohammad Sayeed→Mehbooba Mufti", seats: 25 },
+        { year: 2008, winner: "NC+INC", cm: "Omar Abdullah", seats: 28 },
+      ]
+    }
+  },
+
+  // ─── ANCIENT TIMELINE ────────────────────────────────────────
+  ancientTimeline: [
+    { period: "~3000 BCE", title: "Indus Valley Sabha Halls", desc: "Archaeological evidence at Mohenjo-daro and Harappa shows large hall structures interpreted as public assembly rooms — suggesting community governance." },
+    { period: "~1500 BCE", title: "Vedic Sabhas & Samitis", desc: "The Rigveda mentions Sabha (assembly of elders) and Samiti (general assembly of the tribe) as parallel deliberative bodies. Kings consulted both." },
+    { period: "~700–600 BCE", title: "Gana Sanghas Emerge", desc: "Clan republics (Gana Sanghas) form across northern India. The Vajji confederacy, Mallas, Shakyas, and Licchavis establish elected governance with formal assemblies." },
+    { period: "~600 BCE", title: "Vaishali Republic — World's First", desc: "Licchavi clan establishes Vaishali republic with 7,707-member elected assembly. Salaka (ballot) voting. Elected president (Raja), VP (Upa-Raja), Senapati, Treasurer." },
+    { period: "~500 BCE", title: "Buddhist Sangha Adopts Gana Rules", desc: "Buddha explicitly models his monastic Sangha on Licchavi governance. Formal quorum rules, ballot voting (Salaka), debate procedures — documented in Mahavagga." },
+    { period: "~400–321 BCE", title: "Arthashastra & Republican Knowledge", desc: "Chanakya (Kautilya) documents republican governance extensively in Arthashastra. Ironically also advises kings on how to subvert and absorb republics." },
+    { period: "~321 BCE", title: "Magadha Absorbs Republics", desc: "Chandragupta Maurya, guided by Chanakya, conquers and absorbs the Gana Sanghas into the Maurya Empire. Republican tradition fades from mainstream governance." },
+    { period: "~300 CE", title: "Village Self-Governance", desc: "Even under imperial rule, village-level governance (gram panchayats) persist across South Asia. Local assemblies continue making decisions on land, water, and disputes." },
+    { period: "985–1014 CE", title: "Uttaramerur Inscription", desc: "Tamil inscription from Chola dynasty documents precise rules for village assembly (Sabha) elections: qualifications, ballot (kudavolai system), term limits, disqualifications." }
+  ],
+
+  // ─── KEY MILESTONES ─────────────────────────────────────────
+  modernMilestones: [
+    { year: 1909, event: "Morley-Minto Reforms", desc: "First elections in India. Separate Muslim electorates introduced." },
+    { year: 1919, event: "Montagu-Chelmsford", desc: "Diarchy. Provincial autonomy. ~10% could vote." },
+    { year: 1935, event: "Govt of India Act", desc: "35M voters. Federal structure. Foundation for 1950 Constitution." },
+    { year: 1950, event: "ECI Established", desc: "Jan 25. Sukumar Sen appointed 1st CEC. Universal adult franchise." },
+    { year: 1951, event: "First General Election Begins", desc: "Oct 25. 173M voters. 68 phases. World record." },
+    { year: 1967, event: "Last Simultaneous Election", desc: "4th Lok Sabha. Last time all state+national elections held together." },
+    { year: 1975, event: "Emergency Declared", desc: "June 25. Indira Gandhi. Civil liberties suspended. Elections postponed." },
+    { year: 1977, event: "Emergency Ends, Democracy Wins", desc: "INC routed. First non-Congress PM. Morarji Desai." },
+    { year: 1982, event: "First EVM Pilot", desc: "Kerala. 50 booths. Parur constituency." },
+    { year: 1985, event: "Anti-Defection Law", desc: "52nd Amendment. Aaya Ram Gaya Ram era ends." },
+    { year: 1989, event: "Voting Age → 18", desc: "61st Amendment. +50M new voters overnight." },
+    { year: 1992, event: "Panchayati Raj Constitutionalized", desc: "73rd & 74th Amendments. 3M grassroots representatives." },
+    { year: 2004, event: "EVMs Used Exclusively", desc: "All booths, all phases. No more ballot papers." },
+    { year: 2013, event: "NOTA Introduced", desc: "None of the Above on all EVMs. SC order." },
+    { year: 2019, event: "VVPAT on All Booths", desc: "900M voters. 5 VVPAT counted per constituency." },
+    { year: 2023, event: "Women's Reservation Act", desc: "106th Amendment. 33% reservation. Effective post-delimitation ~2029." },
+    { year: 2024, event: "642M Votes — World Record", desc: "7 phases. Home voting. AI surveillance. Modi's 3rd term." },
+    { year: 2025, event: "Bihar NDA Landslide", desc: "NDA wins 202/243 seats. Nitish Kumar's record 10th oath as CM. Prashant Kishor's Jan Suraaj debuts." },
+    { year: 2025, event: "Delhi: BJP Returns After 27 Years", desc: "BJP wins 48/70 seats. AAP routed. Rekha Gupta becomes CM. AAP's Kejriwal loses own seat." },
+    { year: 2025, event: "CEC Gyanesh Kumar Appointed", desc: "First CEC under new Appointment Act. 30 reforms rolled out: SIR, tech upgrades, voter roll integrity." },
+    { year: 2026, event: "Nitish Kumar Resigns for Rajya Sabha", desc: "Apr 2026. Succeeded by Samrat Chaudhary — Bihar's first BJP CM." }
+  ],
+
+  // ─── NOTABLE ELECTIONS ───────────────────────────────────────
+  notable: [
+    { title: "The 1984 Sympathy Wave", stat: "404/542", desc: "Rajiv Gandhi wins the largest majority ever, days after his mother Indira Gandhi's assassination. Congress gets 48.1% of votes — never matched since." },
+    { title: "The 1977 Democracy Verdict", stat: "Congress: 154", desc: "Post-Emergency, India votes out Indira Gandhi in what is called one of the most emphatic democratic rejections in world history. Janata wins 295 seats." },
+    { title: "AAP's 2015 Delhi Miracle", stat: "67/70 seats", desc: "Arvind Kejriwal's party wins 67 of 70 Delhi assembly seats — a 96% sweep of seats that redefined urban Indian politics." },
+    { title: "1951-52: Impossible Made Real", stat: "68 phases", desc: "India conducts the world's largest election ever — 173M voters, 85% illiterate, in a country with almost no roads or communication. And it works." },
+    { title: "2024: The World Record", stat: "642M votes", desc: "642 million voters participate — surpassing every previous election in human history. Yet the result shocked pollsters: BJP fell short of majority." },
+    { title: "Odisha: 24 Years of BJD", stat: "2000–2024", desc: "Naveen Patnaik's BJD wins 5 consecutive state elections — making it one of India's longest unbroken state government streaks. BJP finally broke it in 2024." }
+  ]
+};
+
+</script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+// NOTA — None of the Above · App.js
+// ═══════════════════════════════════════════════════════════════
+
+'use strict';
+
+// ─── INIT ────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  initLoader();
+  initPWA();
+  initNavbar();
+  initMobileNav();
+  initTicker();
+  initReveal();
+  initHorizontalTimeline();
+  buildNationalTimeline();
+  buildPMTimeline();
+  buildStateList();
+  buildAncientTimeline();
+  buildNotableGrid();
+  initTabs();
+  initAccordions();
+  initQuiz();
+  initDragScroll();
+});
+
+// ─── LOADER ──────────────────────────────────────────────────
+function initLoader() {
+  const loader = document.getElementById('loader');
+  if (!loader) return;
+  setTimeout(() => {
+    loader.classList.add('hidden');
+    document.body.style.overflow = '';
+  }, 1600);
+  document.body.style.overflow = 'hidden';
+}
+
+// ─── PWA SERVICE WORKER ──────────────────────────────────────
+function initPWA() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(()=>{}).then(() => {
+      console.log('[NOTA] SW registered');
+    }).catch(() => {});
+  }
+  window.addEventListener('online',  () => document.getElementById('offline-badge')?.classList.remove('show'));
+  window.addEventListener('offline', () => document.getElementById('offline-badge')?.classList.add('show'));
+}
+
+// ─── NAVBAR SCROLL HIDE/SHOW ─────────────────────────────────
+function initNavbar() {
+  const nav = document.getElementById('navbar');
+  const links = nav?.querySelectorAll('.nav-links a');
+  let last = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > last + 10 && y > 100) nav?.classList.add('hide');
+    else if (y < last - 5) nav?.classList.remove('hide');
+    last = y;
+    // active link
+    const secs = document.querySelectorAll('section[id]');
+    let cur = '';
+    secs.forEach(s => { if (y >= s.offsetTop - 80) cur = s.id; });
+    links?.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+    });
+  }, { passive: true });
+}
+
+// ─── MOBILE NAV ──────────────────────────────────────────────
+function initMobileNav() {
+  const btn = document.getElementById('nav-menu-btn');
+  const drawer = document.getElementById('nav-drawer');
+  btn?.addEventListener('click', () => drawer?.classList.toggle('open'));
+  drawer?.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => drawer.classList.remove('open'));
+  });
+}
+
+// ─── TICKER ──────────────────────────────────────────────────
+function initTicker() {
+  const el = document.getElementById('ticker-inner');
+  if (!el) return;
+  const items = el.innerHTML;
+  el.innerHTML = items + items; // duplicate for seamless loop
+}
+
+// ─── INTERSECTION REVEAL ─────────────────────────────────────
+// Global reveal observer — reusable after dynamic builds
+window._revealObs = null;
+function initReveal() {
+  window._revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        window._revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => window._revealObs.observe(el));
+}
+// Call after any dynamic build to register new .reveal elements
+function observeNewReveals(container) {
+  if (!window._revealObs) return;
+  (container || document).querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    window._revealObs.observe(el);
+  });
+}
+
+// ─── TABS ────────────────────────────────────────────────────
+function initTabs() {
+  document.querySelectorAll('.evm-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('[data-tabs]');
+      if (!group) return;
+      const target = btn.dataset.tab;
+      group.querySelectorAll('.evm-tab').forEach(b => b.classList.remove('active'));
+      group.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const panel = group.querySelector(`[data-panel="${target}"]`);
+      if (panel) {
+        panel.classList.add('active');
+        triggerReveal(panel);
+      }
+      // EVM click sound simulation (visual feedback)
+      btn.style.filter = 'brightness(1.3)';
+      setTimeout(() => btn.style.filter = '', 120);
+    });
+  });
+}
+
+function triggerReveal(container) {
+  container.querySelectorAll('.reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 60);
+  });
+}
+
+// ─── ACCORDIONS ──────────────────────────────────────────────
+function initAccordions() {
+  document.querySelectorAll('.acc-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.closest('.acc-item');
+      const isOpen = item.classList.contains('open');
+      // close all in same accordion
+      const parent = item.closest('.accordion');
+      parent?.querySelectorAll('.acc-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+}
+
+// ─── DRAG SCROLL ─────────────────────────────────────────────
+function initDragScroll() {
+  document.querySelectorAll('.timeline-scroll-wrap').forEach(el => {
+    let isDown = false, startX, scrollLeft;
+    el.addEventListener('mousedown', e => {
+      isDown = true; el.classList.add('active');
+      startX = e.pageX - el.offsetLeft;
+      scrollLeft = el.scrollLeft;
+    });
+    el.addEventListener('mouseleave', () => { isDown = false; el.classList.remove('active'); });
+    el.addEventListener('mouseup', () => { isDown = false; el.classList.remove('active'); });
+    el.addEventListener('mousemove', e => {
+      if (!isDown) return; e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      el.scrollLeft = scrollLeft - (x - startX) * 1.5;
+    });
+  });
+}
+
+// ─── HORIZONTAL DRAG HINT ANIMATION ─────────────────────────
+function initHorizontalTimeline() {
+  const wrap = document.querySelector('.timeline-scroll-wrap');
+  if (!wrap) return;
+  // Auto-scroll hint
+  let hinted = false;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !hinted) {
+        hinted = true;
+        setTimeout(() => {
+          wrap.scrollTo({ left: 300, behavior: 'smooth' });
+          setTimeout(() => wrap.scrollTo({ left: 0, behavior: 'smooth' }), 1200);
+        }, 600);
+      }
+    });
+  }, { threshold: 0.5 });
+  obs.observe(wrap);
+}
+
+// ─── BUILD NATIONAL TIMELINE ─────────────────────────────────
+function buildNationalTimeline() {
+  const track = document.getElementById('tl-track');
+  if (!track || !window.NOTA_DATA) return;
+  const elections = NOTA_DATA.generalElections;
+  const maxSeats = 543;
+
+  elections.forEach((e, i) => {
+    const card = document.createElement('div');
+    card.className = 'tl-card';
+    card.setAttribute('tabindex','0');
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label', `${e.year} election: ${e.winner} won ${e.wSeats} seats`);
+
+    const pct = Math.round((parseInt(e.wSeats) / maxSeats) * 100);
+    const isINC = e.winner.includes('INC');
+    const isBJP = e.winner.includes('BJP');
+    const barColor = isBJP ? '#FF9933' : isINC ? '#00BFFF' : '#C9A23A';
+
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;padding:0 4px">
+        <div class="tl-node"></div>
+        <span style="font-family:var(--ff-mono);font-size:0.52rem;color:var(--muted);letter-spacing:1px">${e.ls} LS</span>
+      </div>
+      <div class="tl-content">
+        <span class="tl-year-badge">${e.year}</span>
+        <div class="tl-winner">${e.winner}</div>
+        <div class="tl-seats-bar">
+          <div class="tl-seats-fill" style="width:0%;background:${barColor};transition:width 0.8s ease;" data-pct="${pct}"></div>
+        </div>
+        <div class="tl-meta">
+          <span>${e.wSeats}/${maxSeats}</span>
+          <span>${e.wVote}</span>
+        </div>
+        <div class="tl-meta" style="margin-top:4px">
+          <span>↻ ${e.turnout}</span>
+          <span>${e.voters}</span>
+        </div>
+        <div class="tl-milestone">${e.milestone}</div>
+      </div>`;
+
+    card.addEventListener('click', () => showElectionModal(e));
+    card.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); showElectionModal(e); }
+    });
+    track.appendChild(card);
+  });
+
+  // Animate bars when track enters viewport
+  const trackObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        track.querySelectorAll('.tl-seats-fill').forEach(bar => {
+          bar.style.width = bar.dataset.pct + '%';
+        });
+        trackObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  trackObs.observe(track);
+}
+
+function ordinal(n) {
+  const s = ['th','st','nd','rd'], v = n % 100;
+  return n + (s[(v-20)%10]||s[v]||s[0]);
+}
+
+// ─── ELECTION MODAL ──────────────────────────────────────────
+function showElectionModal(e) {
+  const modal = document.getElementById('election-modal');
+  const body = document.getElementById('modal-body');
+  if (!modal || !body) return;
+
+  const pm = NOTA_DATA.primeMinsters.find(p => p.ls.includes(ordinal(e.ls).replace(e.ls,'')));
+
+  body.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+      <div>
+        <div style="font-family:var(--ff-display);font-size:3rem;color:var(--amber);line-height:1">${e.year}</div>
+        <div style="font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase">${ordinal(e.ls)} Lok Sabha General Election</div>
+      </div>
+      <button onclick="closeModal()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:6px 14px;font-family:var(--ff-mono);font-size:0.6rem;cursor:pointer;letter-spacing:1px">✕ CLOSE</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;margin-bottom:2rem">
+      ${infoChip('Winner', e.winner)}
+      ${infoChip('Seats Won', e.wSeats + ' / ' + e.seats)}
+      ${infoChip('Vote Share', e.wVote)}
+      ${infoChip('Turnout', e.turnout)}
+      ${infoChip('Registered Voters', e.voters)}
+      ${infoChip('Phases', e.phases)}
+    </div>
+    <div style="background:rgba(232,118,26,0.06);border:1px solid rgba(232,118,26,0.2);padding:1.25rem;margin-bottom:1.5rem">
+      <div style="font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:2px;color:var(--amber);text-transform:uppercase;margin-bottom:0.5rem">Historic Significance</div>
+      <p style="font-size:0.8rem;line-height:1.9;color:var(--paper)">${e.milestone}</p>
+    </div>
+    <div style="background:var(--ink-soft);padding:1.25rem;border:1px solid var(--border)">
+      <div style="font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:1rem">Prime Minister of this Era</div>
+      ${getPMForLS(e.ls)}
+    </div>`;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function infoChip(label, value) {
+  return `<div style="background:var(--ink-mid);border:1px solid var(--border);padding:0.75rem">
+    <div style="font-family:var(--ff-mono);font-size:0.55rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:3px">${label}</div>
+    <div style="font-family:var(--ff-serif);font-size:0.85rem;color:var(--paper);font-weight:700">${value}</div>
+  </div>`;
+}
+
+function getPMForLS(lsNum) {
+  const matches = NOTA_DATA.primeMinsters.filter(p => {
+    const parts = p.ls.split('–').map(s => s.trim());
+    const start = parseInt(parts[0]);
+    const end = parts[1] ? parseInt(parts[1]) : start;
+    const lsStr = ordinal(lsNum);
+    return p.ls.includes(lsStr.replace(lsNum.toString(),'').trim()) || 
+           (lsNum >= start && lsNum <= end) ||
+           p.ls.includes(lsNum + 'th') || p.ls.includes(lsNum + 'st') || 
+           p.ls.includes(lsNum + 'nd') || p.ls.includes(lsNum + 'rd');
+  });
+  const pm = NOTA_DATA.primeMinsters.find(p => p.ls.includes(lsNum));
+  const target = pm || matches[0];
+  if (!target) return '<p style="color:var(--muted);font-size:0.75rem">Multiple PMs this term.</p>';
+  return `<div style="display:flex;gap:1rem;align-items:flex-start">
+    <div>
+      <div style="font-family:var(--ff-serif);font-size:1rem;color:var(--paper);font-weight:700;margin-bottom:2px">${target.name}</div>
+      <div style="font-family:var(--ff-mono);font-size:0.62rem;color:var(--muted);margin-bottom:0.4rem">${target.party} · ${target.term}</div>
+      <p style="font-size:0.74rem;color:var(--dusty);line-height:1.7">${target.note}</p>
+    </div>
+  </div>`;
+}
+
+function closeModal() {
+  document.getElementById('election-modal')?.classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.closeModal = closeModal;
+
+// ─── BUILD PM TIMELINE ───────────────────────────────────────
+function buildPMTimeline() {
+  const container = document.getElementById('pm-timeline');
+  if (!container || !window.NOTA_DATA) return;
+
+  NOTA_DATA.primeMinsters.forEach((pm, i) => {
+    const div = document.createElement('div');
+    div.className = 'pm-item';
+    div.style.opacity = '0';
+    div.style.transform = 'translateX(-12px)';
+    div.style.transition = `opacity 0.5s ease ${i * 60}ms, transform 0.5s ease ${i * 60}ms`;
+    div.innerHTML = `
+      <div class="pm-dot"></div>
+      <div class="pm-term">${pm.term}</div>
+      <div class="pm-name">${pm.name}</div>
+      <div class="pm-party">${pm.party}</div>
+      <p class="pm-note">${pm.note}</p>
+      <span class="pm-ls">${pm.ls} Lok Sabha</span>
+      <span class="pm-ls" style="margin-left:6px">Seats: ${pm.seats}</span>`;
+    container.appendChild(div);
+  });
+
+  // Animate in when section enters viewport
+  const pmObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        container.querySelectorAll('.pm-item').forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateX(0)';
+        });
+        pmObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  pmObs.observe(container);
+}
+
+
+function partyClass(winner) {
+  const w = winner.toLowerCase();
+  if (w.includes('bjp')) return 'pc-bjp';
+  if (w.includes('inc') || w.includes('congress')) return 'pc-inc';
+  if (w.includes('aap')) return 'pc-aap';
+  if (w.includes('sp') && !w.includes('bsp')) return 'pc-sp';
+  if (w.includes('bsp')) return 'pc-bsp';
+  if (w.includes('tmc') || w.includes('trinamool')) return 'pc-tmc';
+  if (w.includes('dmk')) return 'pc-dmk';
+  if (w.includes('jdu') || w.includes('nda')) return 'pc-jdu';
+  if (w.includes('bjd')) return 'pc-bjd';
+  return 'pc-other';
+}
+// ─── BUILD STATE LIST ────────────────────────────────────────
+function buildStateList() {
+  const list = document.getElementById('state-list');
+  const detail = document.getElementById('state-detail');
+  if (!list || !window.NOTA_DATA) return;
+
+  const states = Object.keys(NOTA_DATA.states).sort();
+
+  function render(filter = '') {
+    list.innerHTML = '';
+    states.filter(s => s.toLowerCase().includes(filter.toLowerCase())).forEach(name => {
+      const data = NOTA_DATA.states[name];
+      const item = document.createElement('div');
+      item.className = 'state-list-item';
+      item.innerHTML = `
+        <div>
+          <div class="sli-name">${name}</div>
+          <div class="sli-region">${data.region}</div>
+        </div>
+        <div class="sli-seats">${data.lsSeats} LS</div>`;
+      item.addEventListener('click', () => {
+        list.querySelectorAll('.state-list-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        renderStateDetail(name, data);
+      });
+      list.appendChild(item);
+    });
+  }
+
+  render();
+
+  document.getElementById('state-search')?.addEventListener('input', e => render(e.target.value));
+
+  // Render first state by default
+  const first = states[0];
+  renderStateDetail(first, NOTA_DATA.states[first]);
+  list.querySelector('.state-list-item')?.classList.add('active');
+
+  function renderStateDetail(name, data) {
+    detail.innerHTML = `
+      <div class="sd-header">
+        <div class="sd-name">${name}</div>
+        <div class="sd-meta-row">
+          <span class="sd-meta-chip">🏛 ${data.lsSeats} Lok Sabha Seats</span>
+          <span class="sd-meta-chip">🗳 ${data.mlaSeats} MLA Seats</span>
+          <span class="sd-meta-chip">🗺 ${data.region.toUpperCase()}</span>
+          ${data.note ? `<span class="sd-meta-chip" style="color:var(--amber)">${data.note}</span>` : ''}
+        </div>
+      </div>
+      <div class="sd-elections-title">Assembly Election History</div>
+      ${data.elections.map(el => `
+        <div class="sd-election-row">
+          <div class="sd-year">${el.year}</div>
+          <div>
+            <div class="sd-winner-name">${el.winner} <span class="party-chip ${partyClass(el.winner)}">${el.winner.split('+')[0].split('(')[0].trim()}</span></div>
+            <div class="sd-cm">CM: ${el.cm}</div>
+          </div>
+          <div>
+            <div class="sd-seats-badge">${el.seats}</div>
+            <div class="sd-seats-label">seats</div>
+          </div>
+        </div>`).join('')}`;
+  }
+}
+
+// ─── BUILD ANCIENT TIMELINE ──────────────────────────────────
+function buildAncientTimeline() {
+  const container = document.getElementById('ancient-tl');
+  if (!container || !window.NOTA_DATA) return;
+
+  NOTA_DATA.ancientTimeline.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'atl-item';
+    div.style.opacity = '0';
+    div.style.transform = 'translateY(16px)';
+    div.style.transition = `opacity 0.55s ease ${i * 80}ms, transform 0.55s ease ${i * 80}ms`;
+    div.innerHTML = `
+      <div class="atl-dot-wrap"><div class="atl-dot"></div></div>
+      <div>
+        <div class="atl-period">${item.period}</div>
+        <div class="atl-title">${item.title}</div>
+        <p class="atl-desc">${item.desc}</p>
+      </div>`;
+    container.appendChild(div);
+  });
+
+  // Observe and animate
+  const atlObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        container.querySelectorAll('.atl-item').forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        });
+        atlObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  atlObs.observe(container);
+}
+
+// ─── QUIZ ────────────────────────────────────────────────────
+const quizData = [
+  {
+    q: "India's first general election after independence was conducted in:",
+    opts: ["1947–48","1949–50","1951–52","1953–54"],
+    ans: 2,
+    exp: "India's first general elections spanned October 25, 1951 to February 21, 1952 — 68 phases, 173 million voters, 85% of whom were illiterate. The ECI used different coloured ballot boxes per candidate. World had never seen anything like it."
+  },
+  {
+    q: "Who was India's first Chief Election Commissioner?",
+    opts: ["T.N. Seshan","Sukumar Sen","S.L. Shakdhar","K.V.K. Sundaram"],
+    ans: 1,
+    exp: "Sukumar Sen was appointed India's first Chief Election Commissioner on March 21, 1950. A Cambridge-educated ICS officer, he organised the monumental 1951-52 elections and received global praise for conducting a flawless election at unprecedented scale."
+  },
+  {
+    q: "Vaishali's Licchavi Gana Sangha had approximately how many elected assembly members?",
+    opts: ["1,007","3,333","7,707","12,000"],
+    ans: 2,
+    exp: "The Licchavi republic of Vaishali had a 7,707-member elected assembly (called Rajas) — one of the largest deliberative bodies in ancient history. They voted using a ballot system called Salaka, and elected a President, VP, Defence Chief, and Treasurer."
+  },
+  {
+    q: "Until which year did India conduct simultaneous Lok Sabha and ALL state elections?",
+    opts: ["1952","1962","1967","1972"],
+    ans: 2,
+    exp: "India held simultaneous national and state elections from 1952 to 1967 (four election cycles). In 1968–69, several state governments fell due to defections — breaking the synchronisation permanently. The ONOE proposal aims to restore this."
+  },
+  {
+    q: "The 61st Constitutional Amendment (1989) did what to India's democracy?",
+    opts: ["Created Panchayati Raj","Lowered voting age from 21 to 18","Introduced EVMs","Created anti-defection law"],
+    ans: 1,
+    exp: "The 61st Amendment lowered the voting age from 21 to 18, enfranchising approximately 50 million young Indians overnight. Rajiv Gandhi's government passed it in 1988, came into force in 1989 — before which many countries still had a 21+ voting age."
+  },
+  {
+    q: "NOTA — 'None of the Above' — was introduced on Indian EVMs following a Supreme Court order in:",
+    opts: ["2009","2011","2013","2015"],
+    ans: 2,
+    exp: "NOTA was introduced on October 4, 2013, following a Supreme Court directive in PUCL vs Union of India. The court held that voters have the right to reject all candidates. NOTA does not invalidate the election but allows formal dissent without abstaining."
+  },
+  {
+    q: "Which constitutional amendment gave India the Panchayati Raj system?",
+    opts: ["42nd Amendment","61st Amendment","73rd Amendment","86th Amendment"],
+    ans: 2,
+    exp: "The 73rd Constitutional Amendment (1992), under PM Narasimha Rao, constitutionalised rural local self-governance — creating three-tier Panchayati Raj. The companion 74th Amendment did the same for urban bodies. Together they created over 3 million elected grassroots representatives."
+  },
+  {
+    q: "Which general election produced the largest ever seat majority in Lok Sabha history?",
+    opts: ["1971 (Garibi Hatao)","1977 (Post-Emergency)","1980 (Indira Returns)","1984 (Sympathy Wave)"],
+    ans: 3,
+    exp: "The 1984 election — held weeks after Indira Gandhi's assassination — gave Congress 404 of 542 seats (74.5%), the largest majority ever in Lok Sabha history. Rajiv Gandhi won on a wave of national sympathy and moral outrage. The vote share was 48.1% — also never matched since."
+  },
+  {
+    q: "The One Nation One Election bill (129th Constitutional Amendment) was introduced in Parliament in:",
+    opts: ["September 2024","December 2024","February 2025","April 2025"],
+    ans: 1,
+    exp: "The Constitution (129th Amendment) Bill was introduced in the Lok Sabha on December 17, 2024 by Law Minister Arjun Ram Meghwal. It was referred to a 39-member Joint Parliamentary Committee. If passed and implemented, the earliest synchronised elections could happen around 2034."
+  },
+  {
+    q: "The ancient Kudavolai system mentioned in the Uttaramerur inscription was a form of:",
+    opts: ["Land tax collection","Lottery-based village election","Military recruitment","Census counting"],
+    ans: 1,
+    exp: "The Kudavolai system, documented in a 10th-century CE Chola-era inscription at Uttaramerur (Tamil Nadu), was a sophisticated village election method where candidate names were written on palm leaves, placed in a pot, and drawn out by a young boy — an ancient secret ballot. It specified eligibility criteria, disqualification rules, and term limits."
+  }
+];
+
+let qIdx = 0, score = 0, answered = false;
+
+function initQuiz() {
+  renderQuestion();
+  document.getElementById('quiz-next')?.addEventListener('click', () => {
+    qIdx++;
+    if (qIdx >= quizData.length) showScore();
+    else renderQuestion();
+  });
+  document.getElementById('quiz-restart')?.addEventListener('click', () => {
+    qIdx = 0; score = 0; answered = false;
+    document.getElementById('quiz-score')?.classList.add('hidden');
+    document.getElementById('quiz-main')?.classList.remove('hidden');
+    renderQuestion();
+  });
+}
+function nextQuestion() {
+  currentQ++;
+  renderQuiz();
+}
+
+function resetQuiz() {
+  currentQ = 0; score = 0; answered = false;
+  renderQuiz();
+}
+function renderQuestion() {
+  answered = false;
+  const q = quizData[qIdx];
+  const pct = Math.round((qIdx / quizData.length) * 100);
+
+  const progFill = document.getElementById('quiz-prog-fill');
+  if (progFill) progFill.style.width = pct + '%';
+
+  const numEl = document.getElementById('quiz-q-num');
+  if (numEl) numEl.textContent = `Question ${qIdx + 1} of ${quizData.length}`;
+
+  const qEl = document.getElementById('quiz-question');
+  if (qEl) qEl.textContent = q.q;
+
+  const optsEl = document.getElementById('quiz-options');
+  if (!optsEl) return;
+  optsEl.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt btn-evm';
+    btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+    btn.addEventListener('click', () => handleAnswer(i, btn));
+    optsEl.appendChild(btn);
+  });
+
+  const fb = document.getElementById('quiz-feedback');
+  if (fb) { fb.innerHTML = ''; fb.style.display = 'none'; }
+  const next = document.getElementById('quiz-next');
+  if (next) next.style.display = 'none';
+}
+
+function handleAnswer(idx, btn) {
+  if (answered) return;
+  answered = true;
+  const q = quizData[qIdx];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.disabled = true);
+  opts[q.ans].classList.add('correct');
+  if (idx !== q.ans) btn.classList.add('wrong');
+  else score++;
+  const fb = document.getElementById('quiz-feedback');
+  if (fb) {
+    fb.style.display = 'block';
+    fb.innerHTML = `<strong style="color:${idx === q.ans ? '#6BC99A' : '#E07070'}">${idx === q.ans ? '✓ Correct!' : '✗ Incorrect.'}</strong> ${q.exp}`;
+  }
+  const next = document.getElementById('quiz-next');
+  if (next) {
+    next.style.display = 'inline-block';
+    next.textContent = qIdx < quizData.length - 1 ? 'Next Question →' : 'See Results →';
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-main')?.classList.add('hidden');
+  const scoreEl = document.getElementById('quiz-score');
+  scoreEl?.classList.remove('hidden');
+  const emoji = score >= 9 ? '🏆' : score >= 7 ? '🎯' : score >= 5 ? '📜' : '📚';
+  const msg = score >= 9 ? 'Extraordinary! You could run the ECI.'
+    : score >= 7 ? 'Impressive. A true citizen of democracy.'
+    : score >= 5 ? 'Good foundation. Keep reading Matdan.'
+    : 'Democracy rewards the curious. Try again.';
+  const numEl = document.getElementById('qs-num');
+  if (numEl) numEl.textContent = `${score}/${quizData.length}`;
+  const emEl = document.getElementById('qs-emoji');
+  if (emEl) emEl.textContent = emoji;
+  const msgEl = document.getElementById('qs-message');
+  if (msgEl) msgEl.textContent = msg;
+}
+
+// ─── MODAL CLOSE ON BACKDROP ─────────────────────────────────
+document.addEventListener('click', e => {
+  const modal = document.getElementById('election-modal');
+  if (e.target === modal) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ─── NOTABLE ELECTIONS ───────────────────────────────────────
+function buildNotableGrid() {
+  const grid = document.getElementById('notable-grid');
+  if (!grid || !window.NOTA_DATA) return;
+  NOTA_DATA.notable.forEach((n, i) => {
+    const card = document.createElement('div');
+    card.className = 'notable-card';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(16px)';
+    card.style.transition = `opacity 0.5s ease ${i * 80}ms, transform 0.5s ease ${i * 80}ms`;
+    card.innerHTML = `
+      <div class="nc-stat">${n.stat}</div>
+      <div class="nc-title">${n.title}</div>
+      <p class="nc-desc">${n.desc}</p>`;
+    grid.appendChild(card);
+  });
+  const ngObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        grid.querySelectorAll('.notable-card').forEach(el => {
+          el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+        });
+        ngObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  ngObs.observe(grid);
+}
+
+</script>
+
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" style="
+  position:fixed; bottom:2rem; right:2rem; z-index:900;
+  width:44px; height:44px; border-radius:50%;
+  background:linear-gradient(160deg,#8B3E08,#4A1E04);
+  border:1.5px solid rgba(232,118,26,0.5);
+  color:var(--amber); font-size:1.1rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,0.5);
+  opacity:0; transition:opacity 0.3s;
+  pointer-events:none;
+">↑</button>
+<script>
+  const btt = document.getElementById('back-top');
+  window.addEventListener('scroll', () => {
+    const show = window.scrollY > 600;
+    btt.style.opacity = show ? '1' : '0';
+    btt.style.pointerEvents = show ? 'auto' : 'none';
+  }, {passive:true});
+</script>
+
+
+<script>
+// Arrow key navigation for horizontal timeline
+document.addEventListener('keydown', e => {
+  const tl = document.getElementById('timeline-scroll');
+  if (!tl) return;
+  const rect = tl.getBoundingClientRect();
+  const inView = rect.top < window.innerHeight && rect.bottom > 0;
+  if (!inView) return;
+  if (e.key === 'ArrowRight') { tl.scrollBy({left: 240, behavior:'smooth'}); e.preventDefault(); }
+  if (e.key === 'ArrowLeft')  { tl.scrollBy({left: -240, behavior:'smooth'}); e.preventDefault(); }
+});
+</script>
+
+
+<script>
+(function() {
+  const el = document.getElementById('timeline-scroll');
+  if (!el) return;
+  let startX = 0, startScroll = 0, isSwiping = false;
+  el.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startScroll = el.scrollLeft;
+    isSwiping = true;
+  }, {passive:true});
+  el.addEventListener('touchmove', e => {
+    if (!isSwiping) return;
+    const dx = startX - e.touches[0].clientX;
+    el.scrollLeft = startScroll + dx;
+  }, {passive:true});
+  el.addEventListener('touchend', () => { isSwiping = false; });
+})();
+</script>
+
+</body>
+</html>
